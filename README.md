@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# RCB Ladder Challenge — Cloudflare Pages deployment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the same app you've been using inside Claude, restructured so it can
+run as a real, standalone site on Cloudflare Pages with its own storage.
 
-## Available Scripts
+## Why the old copy lost data
 
-In the project directory, you can run:
+The version built inside Claude used a `window.storage` API that only exists
+inside Claude's own artifact preview. Outside that environment (e.g. once
+hosted on Cloudflare Pages), those calls silently fail, so nothing was ever
+actually saved — that's why the user you created disappeared the moment you
+reopened the page.
 
-### `npm start`
+This version replaces that with a real backend: a Cloudflare Pages Function
+(`functions/api/storage.js`) backed by a Cloudflare **KV** namespace, and a
+small client-side shim (`src/storageClient.js`) that makes the app's existing
+code work against it without any changes to the app logic itself.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## One-time setup on Cloudflare
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. **Create a KV namespace**
+   Cloudflare dashboard → **Workers & Pages** → **KV** → **Create a namespace**.
+   Name it something like `rcb_storage`.
 
-### `npm test`
+2. **Bind it to your Pages project**
+   Your Pages project → **Settings** → **Functions** → **KV namespace bindings**
+   → **Add binding**.
+   - Variable name: `STORAGE` (must match exactly — the function code looks for `env.STORAGE`)
+   - KV namespace: the one you just created
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   Do this for **both** the Production and Preview environments, or preview
+   deployments (e.g. pull request previews) will 500 on save.
 
-### `npm run build`
+3. **Set the build configuration** (Pages project → Settings → Builds & deployments)
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+   - Root directory: `/` (or wherever this folder sits in your repo)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. **Push this code to your GitHub repo** (`malcolmwallder/RBC_Ladder`).
+   Cloudflare will build and deploy automatically. Every push redeploys.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Local development
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+npm run dev
+```
 
-### `npm run eject`
+Note: `npm run dev` (plain Vite) won't have `/api/storage` available, since
+that only runs as a Cloudflare Pages Function. To test the full app locally
+including storage, use Wrangler instead:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm run build
+npx wrangler pages dev dist --kv STORAGE
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## How data is shared vs personal
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Shared data** (the ladder, challenges, settings) is stored under key
+  `s:<key>` in KV — every visitor reads and writes the same record.
+- **Personal data** ("who am I on this device", admin unlock) is stored under
+  `p:<deviceId>:<key>`, where `deviceId` is a random ID generated once and
+  kept in that browser's `localStorage`. Clearing site data / using a
+  different browser resets that device's identity, same as before.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Admin passcode
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Still the `ADMIN_PASSCODE` constant near the top of `src/App.jsx`. Change it
+there before your first deploy if you'd like something other than the
+default.
