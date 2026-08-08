@@ -878,12 +878,13 @@ function AdminLogin({ onUnlock, onCancel }) {
   );
 }
 
-function AdminPanel({ ladder, settings, onAdd, onDelete, onImport, onSaveSettings, onClose, onLock }) {
+function AdminPanel({ ladder, settings, onAdd, onDelete, onImport, onSaveSettings, onMove, onClose, onLock }) {
   const [form, setForm] = useState({
     name: "", surname: "", cell: "", grade: "", hcap: "", years: "", position: "",
   });
   const [formError, setFormError] = useState("");
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [moveDrafts, setMoveDrafts] = useState({});
   const [showSync, setShowSync] = useState(false);
   const [pasteText, setPasteText] = useState("");
   const [preview, setPreview] = useState(null);
@@ -1304,6 +1305,7 @@ function AdminPanel({ ladder, settings, onAdd, onDelete, onImport, onSaveSetting
                 <th style={{ padding: "6px 6px" }}>Grade</th>
                 <th style={{ padding: "6px 6px" }}>Hcap</th>
                 <th style={{ padding: "6px 6px" }}>Years</th>
+                <th style={{ padding: "6px 6px" }}>Move</th>
                 <th style={{ padding: "6px 6px" }}></th>
               </tr>
             </thead>
@@ -1316,6 +1318,81 @@ function AdminPanel({ ladder, settings, onAdd, onDelete, onImport, onSaveSetting
                   <td style={{ padding: "6px 6px" }}>{gradeLabel(b.grade)}</td>
                   <td style={{ padding: "6px 6px" }}>{b.hcap}</td>
                   <td style={{ padding: "6px 6px" }}>{b.years}</td>
+                  <td style={{ padding: "6px 6px", whiteSpace: "nowrap" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
+                      <button
+                        disabled={i === 0}
+                        onClick={() => onMove(b.id, i)}
+                        title="Move up one"
+                        style={{
+                          background: "transparent",
+                          border: `1px solid ${COLORS.parchmentDeep}`,
+                          borderRadius: 5,
+                          padding: "3px 6px",
+                          fontSize: 11,
+                          cursor: i === 0 ? "not-allowed" : "pointer",
+                          opacity: i === 0 ? 0.4 : 1,
+                          color: COLORS.ink,
+                        }}
+                      >
+                        ▲
+                      </button>
+                      <button
+                        disabled={i === ladder.length - 1}
+                        onClick={() => onMove(b.id, i + 2)}
+                        title="Move down one"
+                        style={{
+                          background: "transparent",
+                          border: `1px solid ${COLORS.parchmentDeep}`,
+                          borderRadius: 5,
+                          padding: "3px 6px",
+                          fontSize: 11,
+                          cursor: i === ladder.length - 1 ? "not-allowed" : "pointer",
+                          opacity: i === ladder.length - 1 ? 0.4 : 1,
+                          color: COLORS.ink,
+                        }}
+                      >
+                        ▼
+                      </button>
+                      <input
+                        type="number"
+                        min="1"
+                        max={ladder.length}
+                        placeholder="#"
+                        value={moveDrafts[b.id] ?? ""}
+                        onChange={(e) => setMoveDrafts((d) => ({ ...d, [b.id]: e.target.value }))}
+                        style={{
+                          width: 42,
+                          padding: "3px 4px",
+                          borderRadius: 5,
+                          border: `1px solid ${COLORS.parchmentDeep}`,
+                          fontFamily: "'IBM Plex Mono', monospace",
+                          fontSize: 11,
+                        }}
+                      />
+                      <button
+                        onClick={() => {
+                          const val = parseInt(moveDrafts[b.id], 10);
+                          if (Number.isFinite(val)) {
+                            onMove(b.id, val);
+                            setMoveDrafts((d) => ({ ...d, [b.id]: "" }));
+                          }
+                        }}
+                        style={{
+                          background: "transparent",
+                          border: `1px solid ${COLORS.brass}`,
+                          color: COLORS.brass,
+                          borderRadius: 5,
+                          padding: "3px 6px",
+                          fontSize: 11,
+                          fontWeight: 600,
+                          cursor: "pointer",
+                        }}
+                      >
+                        Go
+                      </button>
+                    </div>
+                  </td>
                   <td style={{ padding: "6px 6px", whiteSpace: "nowrap" }}>
                     {confirmDeleteId === b.id ? (
                       <span style={{ display: "flex", gap: 4 }}>
@@ -1364,6 +1441,8 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [busy, setBusy] = useState(false);
   const [composerTarget, setComposerTarget] = useState(null);
+  const [editingScheduleId, setEditingScheduleId] = useState(null);
+  const [scheduleDraft, setScheduleDraft] = useState({ date: "", time: "" });
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [viewMode, setViewMode] = useState("table");
@@ -1549,6 +1628,25 @@ export default function App() {
     window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
+  const canEditSchedule = (challenge) =>
+    isAdmin || myId === challenge.challengerId || myId === challenge.opponentId;
+
+  const startEditingSchedule = (challenge) => {
+    setEditingScheduleId(challenge.id);
+    setScheduleDraft({ date: challenge.proposedDate || todayISO(), time: challenge.proposedTime || defaultTimeHHMM() });
+  };
+
+  const saveSchedule = async (challengeId) => {
+    const next = (challenges || []).map((c) =>
+      c.id === challengeId
+        ? { ...c, proposedDate: scheduleDraft.date || null, proposedTime: scheduleDraft.time || null }
+        : c
+    );
+    await persistChallenges(next);
+    setEditingScheduleId(null);
+    showToast("Match date/time updated.");
+  };
+
   const handleAdminUnlock = async () => {
     await persistIsAdmin(true);
     setShowAdminLogin(false);
@@ -1595,6 +1693,19 @@ export default function App() {
     } else {
       showToast(`${removed ? displayName(removed) : "Bowler"} removed from the ladder.`);
     }
+  };
+
+  const movePlayer = async (id, newPosition) => {
+    const idx = ladder.findIndex((b) => b.id === id);
+    if (idx === -1) return;
+    const clampedTarget = Math.max(1, Math.min(ladder.length, Math.round(newPosition)));
+    const targetIdx = clampedTarget - 1;
+    if (targetIdx === idx) return;
+    const next = [...ladder];
+    const [mover] = next.splice(idx, 1);
+    next.splice(targetIdx, 0, mover);
+    await persistLadder(next);
+    showToast(`${displayName(mover)} moved to #${targetIdx + 1}.`);
   };
 
   const importLadder = async (nextLadder) => {
@@ -1693,6 +1804,7 @@ export default function App() {
           onDelete={deletePlayer}
           onImport={importLadder}
           onSaveSettings={handleSaveSettings}
+          onMove={movePlayer}
           onClose={() => setShowAdminPanel(false)}
           onLock={handleAdminLock}
         />
@@ -1886,17 +1998,134 @@ export default function App() {
                     {" "}challenges{" "}
                     <strong>#{c.opponent.position} {displayName(c.opponent)}</strong>
                   </div>
-                  {(c.proposedDate || c.proposedTime) && (
+                  {(c.proposedDate || c.proposedTime) && editingScheduleId !== c.id && (
                     <div
                       style={{
                         fontSize: 12,
                         color: COLORS.lawnDark,
                         fontFamily: "'IBM Plex Mono', monospace",
                         marginBottom: 8,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        flexWrap: "wrap",
                       }}
                     >
-                      Proposed: {c.proposedDate ? formatDateNice(c.proposedDate) : ""}
-                      {c.proposedTime ? ` at ${formatTimeNice(c.proposedTime)}` : ""}
+                      <span>
+                        Proposed: {c.proposedDate ? formatDateNice(c.proposedDate) : ""}
+                        {c.proposedTime ? ` at ${formatTimeNice(c.proposedTime)}` : ""}
+                      </span>
+                      {canEditSchedule(c) && (
+                        <button
+                          onClick={() => startEditingSchedule(c)}
+                          style={{
+                            border: "none",
+                            background: "none",
+                            color: COLORS.brass,
+                            textDecoration: "underline",
+                            fontSize: 11.5,
+                            fontFamily: "'Inter', sans-serif",
+                            cursor: "pointer",
+                            padding: 0,
+                          }}
+                        >
+                          Change
+                        </button>
+                      )}
+                    </div>
+                  )}
+                  {!(c.proposedDate || c.proposedTime) && editingScheduleId !== c.id && canEditSchedule(c) && (
+                    <button
+                      onClick={() => startEditingSchedule(c)}
+                      style={{
+                        border: "none",
+                        background: "none",
+                        color: COLORS.brass,
+                        textDecoration: "underline",
+                        fontSize: 11.5,
+                        fontFamily: "'Inter', sans-serif",
+                        cursor: "pointer",
+                        padding: 0,
+                        marginBottom: 8,
+                        display: "block",
+                      }}
+                    >
+                      Set a date/time
+                    </button>
+                  )}
+                  {editingScheduleId === c.id && (
+                    <div
+                      style={{
+                        background: COLORS.parchmentDeep,
+                        borderRadius: 8,
+                        padding: 10,
+                        marginBottom: 8,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 8,
+                      }}
+                    >
+                      <div style={{ display: "flex", gap: 8 }}>
+                        <input
+                          type="date"
+                          value={scheduleDraft.date}
+                          onChange={(e) => setScheduleDraft((d) => ({ ...d, date: e.target.value }))}
+                          style={{
+                            flex: 1,
+                            padding: "6px 8px",
+                            borderRadius: 6,
+                            border: `1.5px solid ${COLORS.parchment}`,
+                            fontFamily: "'IBM Plex Mono', monospace",
+                            fontSize: 12,
+                          }}
+                        />
+                        <input
+                          type="time"
+                          value={scheduleDraft.time}
+                          onChange={(e) => setScheduleDraft((d) => ({ ...d, time: e.target.value }))}
+                          style={{
+                            flex: 1,
+                            padding: "6px 8px",
+                            borderRadius: 6,
+                            border: `1.5px solid ${COLORS.parchment}`,
+                            fontFamily: "'IBM Plex Mono', monospace",
+                            fontSize: 12,
+                          }}
+                        />
+                      </div>
+                      <div style={{ display: "flex", gap: 8 }}>
+                        <button
+                          onClick={() => saveSchedule(c.id)}
+                          style={{
+                            flex: 1,
+                            padding: "6px 0",
+                            borderRadius: 6,
+                            border: "none",
+                            background: COLORS.lawn,
+                            color: COLORS.parchment,
+                            fontSize: 12,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={() => setEditingScheduleId(null)}
+                          style={{
+                            flex: 1,
+                            padding: "6px 0",
+                            borderRadius: 6,
+                            border: `1px solid ${COLORS.slate}`,
+                            background: "transparent",
+                            color: COLORS.slate,
+                            fontSize: 12,
+                            cursor: "pointer",
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
                   )}
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
