@@ -1443,6 +1443,7 @@ export default function App() {
   const [composerTarget, setComposerTarget] = useState(null);
   const [editingScheduleId, setEditingScheduleId] = useState(null);
   const [scheduleDraft, setScheduleDraft] = useState({ date: "", time: "" });
+  const [confirmCancelId, setConfirmCancelId] = useState(null);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [viewMode, setViewMode] = useState("table");
@@ -1645,6 +1646,13 @@ export default function App() {
     await persistChallenges(next);
     setEditingScheduleId(null);
     showToast("Match date/time updated.");
+  };
+
+  const cancelChallenge = async (challengeId) => {
+    const next = (challenges || []).filter((c) => c.id !== challengeId);
+    await persistChallenges(next);
+    setConfirmCancelId(null);
+    showToast("Challenge cancelled. Both bowlers are free to challenge again.");
   };
 
   const handleAdminUnlock = async () => {
@@ -2198,6 +2206,62 @@ export default function App() {
                       {c.opponent.name} won
                     </button>
                   </div>
+                  {canEditSchedule(c) && (
+                    <div style={{ marginTop: 8 }}>
+                      {confirmCancelId === c.id ? (
+                        <div style={{ display: "flex", gap: 8 }}>
+                          <button
+                            disabled={busy}
+                            onClick={() => cancelChallenge(c.id)}
+                            style={{
+                              flex: 1,
+                              padding: "6px 0",
+                              borderRadius: 8,
+                              border: "none",
+                              background: COLORS.clay,
+                              color: "#fff",
+                              fontSize: 12,
+                              fontWeight: 700,
+                              cursor: "pointer",
+                            }}
+                          >
+                            Confirm cancel
+                          </button>
+                          <button
+                            onClick={() => setConfirmCancelId(null)}
+                            style={{
+                              flex: 1,
+                              padding: "6px 0",
+                              borderRadius: 8,
+                              border: `1px solid ${COLORS.slate}`,
+                              background: "transparent",
+                              color: COLORS.slate,
+                              fontSize: 12,
+                              cursor: "pointer",
+                            }}
+                          >
+                            Keep challenge
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => setConfirmCancelId(c.id)}
+                          style={{
+                            border: "none",
+                            background: "none",
+                            color: COLORS.slate,
+                            textDecoration: "underline",
+                            fontSize: 11.5,
+                            fontFamily: "'Inter', sans-serif",
+                            cursor: "pointer",
+                            padding: 0,
+                          }}
+                        >
+                          Cancel this challenge
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
