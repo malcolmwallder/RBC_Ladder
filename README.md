@@ -91,6 +91,35 @@ Still the `ADMIN_PASSCODE` constant near the top of `src/App.jsx`. Change it
 there before your first deploy if you'd like something other than the
 default.
 
+## Order of Merit
+
+A separate points-based ranking, alongside the position ladder:
+
+- Issuing a challenge, winning, and losing all award points (defaults: 1 / 3
+  / 1). Admin can change these under **Admin → Order of Merit rules**.
+- Admin can award arbitrary bonus (or penalty) points to any bowler under
+  **Admin → Award bonus points**, with an optional reason.
+- Going too long (default 45 days) without issuing a challenge costs points
+  (default -5). This runs as a **Cloudflare Cron Trigger** — see
+  `wrangler.jsonc`'s `triggers.crons` (currently `0 3 * * *`, i.e. daily at
+  03:00 UTC) and the `scheduled()` handler in `worker/index.js`. It's
+  deliberately server-side rather than checked in the browser, so it can't
+  be applied twice by two people having the app open at once, and doesn't
+  depend on anyone opening the app for it to run.
+- Every point event (challenge/win/loss/bonus/inactivity) is logged to a
+  ledger (`oom-ledger` in KV) so admins can see and, if needed, delete
+  individual entries to correct mistakes.
+
+**Testing the inactivity check without waiting for the schedule:**
+
+```bash
+curl -X POST https://your-worker-url/api/oom/run-inactivity-check
+```
+
+This isn't linked from the UI — it's there for you to confirm it's wired up
+correctly after deploying. Cloudflare's dashboard (Worker → Triggers → Cron
+Triggers) also has a "Trigger" button to test the actual scheduled handler.
+
 ## Project structure
 
 ```
