@@ -12,6 +12,11 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const INITIAL_LADDER = [{"id": "1-Donnelly-Bobby", "surname": "Donnelly", "name": "Bobby", "cell": "082 923 5967", "grade": "Skip", "hcap": 0, "years": 16.9}, {"id": "2-Barnard-Richard", "surname": "Barnard", "name": "Richard", "cell": "082 875 6641", "grade": "Skip", "hcap": 1, "years": 16.9}, {"id": "3-Smith-Ryan", "surname": "Smith", "name": "Ryan", "cell": "064) 652 3802", "grade": "Skip", "hcap": 1, "years": 15.8}, {"id": "4-Strover-Roy", "surname": "Strover", "name": "Roy", "cell": "", "grade": "Skip", "hcap": 1, "years": 16.9}, {"id": "5-Stafford-Laurie", "surname": "Stafford", "name": "Laurie", "cell": "082 308 8471", "grade": "Skip", "hcap": 1, "years": 15.8}, {"id": "6-Celliers-Kevin", "surname": "Celliers", "name": "Kevin", "cell": "082 588 1511", "grade": "Skip", "hcap": 1, "years": 16.9}, {"id": "7-Harrison-Bev", "surname": "Harrison", "name": "Bev", "cell": "072 065 2700", "grade": "Skip", "hcap": 1, "years": 16.9}, {"id": "8-Gagliardi-Roberto", "surname": "Gagliardi", "name": "Roberto", "cell": "083 262 4995", "grade": "Skip", "hcap": 1, "years": 14.4}, {"id": "9-Turner-Ray", "surname": "Turner", "name": "Ray", "cell": "083 629 8718", "grade": "Skip", "hcap": 1, "years": 13.0}, {"id": "10-Turner-Trent", "surname": "Turner", "name": "Trent", "cell": "071 670 9647", "grade": "Skip", "hcap": 1, "years": 13.0}, {"id": "11-Smith-Dave", "surname": "Smith", "name": "Dave", "cell": "072 606 0827", "grade": "Skip", "hcap": 2, "years": 16.9}, {"id": "12-Coetzee-Les", "surname": "Coetzee", "name": "Les", "cell": "082 771 9579", "grade": "Skip", "hcap": 2, "years": 3.9}, {"id": "13-Fenn-Gareth", "surname": "Fenn", "name": "Gareth", "cell": "083 360 0897", "grade": "Skip", "hcap": 2, "years": 16.9}, {"id": "14-Kramer-Xavian", "surname": "Kramer", "name": "Xavian", "cell": "063 179 9390", "grade": "Skip", "hcap": 2, "years": 10.7}, {"id": "15-Prinsloo-Jan", "surname": "Prinsloo", "name": "Jan", "cell": "079 018 8372", "grade": "Skip", "hcap": 3, "years": 14.1}, {"id": "16-du_Plessis-Mornè", "surname": "du Plessis", "name": "Mornè", "cell": "074 321 1979", "grade": "Skip", "hcap": 2, "years": 9.9}, {"id": "17-Banda-Justice", "surname": "Banda", "name": "Justice", "cell": "083 944 1386", "grade": "Skip", "hcap": 3, "years": 16.9}, {"id": "18-Rix-Alan", "surname": "Rix", "name": "Alan", "cell": "082 806 5775", "grade": "Skip", "hcap": 3, "years": 16.9}, {"id": "19-Smith-Richard", "surname": "Smith", "name": "Richard", "cell": "083 701 7342", "grade": "Skip", "hcap": 3, "years": 16.9}, {"id": "20-Cook-Stuart", "surname": "Cook", "name": "Stuart", "cell": "083 656 3069", "grade": "Skip", "hcap": 3, "years": 14.8}, {"id": "21-v_d_Westhuizen-Danny", "surname": "v d Westhuizen", "name": "Danny", "cell": "083 408 1748", "grade": "3rd+", "hcap": 3, "years": 14.1}, {"id": "22-van_der_Walt-Jesse", "surname": "van der Walt", "name": "Jesse", "cell": "072 637 3008", "grade": "Skip", "hcap": 3, "years": 5.5}, {"id": "23-Malan-Mark", "surname": "Malan", "name": "Mark", "cell": "082 356 1705", "grade": "Skip", "hcap": 3, "years": 12.7}, {"id": "24-Vrugtman-Bruno", "surname": "Vrugtman", "name": "Bruno", "cell": "083 564 2036", "grade": "Skip", "hcap": 3, "years": 11.9}, {"id": "25-Hughes-David", "surname": "Hughes", "name": "David", "cell": "082 412 6665", "grade": "2nd+", "hcap": 4, "years": 4.5}, {"id": "26-Hugo-Corne", "surname": "Hugo", "name": "Corne", "cell": "082 823 9756", "grade": "3rd", "hcap": 3, "years": 4.6}, {"id": "27-van_Niekerk-Michiel", "surname": "van Niekerk", "name": "Michiel", "cell": "084 555 6361", "grade": "3rd+", "hcap": 3, "years": 2.3}, {"id": "28-Naughton-Mark", "surname": "Naughton", "name": "Mark", "cell": "082 463 4162", "grade": "3rd+", "hcap": 4, "years": 13.8}, {"id": "29-Woolfe-Jonathan", "surname": "Woolfe", "name": "Jonathan", "cell": "082 452 3497", "grade": "3rd", "hcap": 4, "years": 11.1}, {"id": "30-Mentz-Deon", "surname": "Mentz", "name": "Deon", "cell": "082 978 4999", "grade": "3rd+", "hcap": 4, "years": 8.3}, {"id": "31-Krul-Willem", "surname": "Krul", "name": "Willem", "cell": "083 285 0803", "grade": "2nd+", "hcap": 4, "years": 8.1}, {"id": "32-Nelson-Rheece", "surname": "Nelson", "name": "Rheece", "cell": "062 731 2356", "grade": "3rd", "hcap": 4, "years": 6.9}, {"id": "33-Nelson-Ethan", "surname": "Nelson", "name": "Ethan", "cell": "069 370 9486", "grade": "Lead", "hcap": 4, "years": 4.6}, {"id": "34-O'Connell-Jason", "surname": "O'Connell", "name": "Jason", "cell": "082 956 3042", "grade": "Lead", "hcap": 4, "years": 4.3}, {"id": "35-Nelson-Craig", "surname": "Nelson", "name": "Craig", "cell": "083 611 6625", "grade": "2nd+", "hcap": 4, "years": 3.9}, {"id": "36-Harrison-Gordon", "surname": "Harrison", "name": "Gordon", "cell": "082 441 9006", "grade": "", "hcap": 5, "years": 16.9}, {"id": "37-Harker-Gordon", "surname": "Harker", "name": "Gordon", "cell": "083 260 6212", "grade": "Skip", "hcap": 5, "years": 13.1}, {"id": "38-Schourie-Sean", "surname": "Schourie", "name": "Sean", "cell": "082 090 2008", "grade": "2nd+", "hcap": 6, "years": 10.3}, {"id": "39-Penfold-Brian", "surname": "Penfold", "name": "Brian", "cell": "083 278 4332", "grade": "3rd", "hcap": 5, "years": 11.7}, {"id": "40-Alford-Smith-John", "surname": "Alford-Smith", "name": "John", "cell": "082 735 5017", "grade": "3rd", "hcap": 5, "years": 11.1}, {"id": "41-Cronje-Luan", "surname": "Cronje", "name": "Luan", "cell": "074 717 1783", "grade": "2nd", "hcap": 5, "years": 10.8}, {"id": "42-Brice-Mike", "surname": "Brice", "name": "Mike", "cell": "072 291 0573", "grade": "3rd", "hcap": 5, "years": 10.4}, {"id": "43-Adams-Mike", "surname": "Adams", "name": "Mike", "cell": "083 450 1519", "grade": "3rd", "hcap": 5, "years": 9.8}, {"id": "44-Mkhonza-Sandile", "surname": "Mkhonza", "name": "Sandile", "cell": "074 838 2033", "grade": "3rd", "hcap": 5, "years": 8.4}, {"id": "45-Ramnarain-Denver", "surname": "Ramnarain", "name": "Denver", "cell": "083 701 9222", "grade": "3rd+", "hcap": 5, "years": 4.5}, {"id": "46-Tillier-Andrew", "surname": "Tillier", "name": "Andrew", "cell": "082 514 5497", "grade": "3rd+", "hcap": 5, "years": 7.5}, {"id": "47-Hancox-Simon", "surname": "Hancox", "name": "Simon", "cell": "082 855 0370", "grade": "3rd+", "hcap": 5, "years": 7.0}, {"id": "48-Suttie-Douglas", "surname": "Suttie", "name": "Douglas", "cell": "082 557 2232", "grade": "2nd+", "hcap": 5, "years": 6.4}, {"id": "49-la_Grange-Gerhard", "surname": "la Grange", "name": "Gerhard", "cell": "082 927 4509", "grade": "2nd+", "hcap": 5, "years": 2.7}, {"id": "50-Erasmus-Mark", "surname": "Erasmus", "name": "Mark", "cell": "083 307 1410", "grade": "2nd+", "hcap": 5, "years": 2.2}, {"id": "51-Clark-Mike", "surname": "Clark", "name": "Mike", "cell": "082 785 9221", "grade": "Skip", "hcap": 6, "years": 16.9}, {"id": "52-Coetzee-Wynand", "surname": "Coetzee", "name": "Wynand", "cell": "082 551 7907", "grade": "2nd", "hcap": 6, "years": 15.1}, {"id": "53-Kruger-Walter", "surname": "Kruger", "name": "Walter", "cell": "083 258 0048", "grade": "Lead+", "hcap": 6, "years": 9.6}, {"id": "54-Goode-Ian", "surname": "Goode", "name": "Ian", "cell": "083 280 5689", "grade": "2nd", "hcap": 6, "years": 9.0}, {"id": "55-Ludick-Thinus", "surname": "Ludick", "name": "Thinus", "cell": "082 371 9924", "grade": "Lead", "hcap": 6, "years": 6.5}, {"id": "56-Galanakis-George", "surname": "Galanakis", "name": "George", "cell": "071 673 5185", "grade": "2nd", "hcap": 6, "years": 4.0}, {"id": "57-Kennedy-Jack", "surname": "Kennedy", "name": "Jack", "cell": "083 653 4050", "grade": "2nd", "hcap": 6, "years": 3.5}, {"id": "58-Spence-Ross-Caiden", "surname": "Spence-Ross", "name": "Caiden", "cell": "071 608 0389", "grade": "2nd", "hcap": 6, "years": 3.5}, {"id": "59-Guthrie-Shaun", "surname": "Guthrie", "name": "Shaun", "cell": "071 608 0389", "grade": "2nd", "hcap": 6, "years": 3.5}, {"id": "60-Mathibela-Tebogo", "surname": "Mathibela", "name": "Tebogo", "cell": "083 581 9659", "grade": "Lead", "hcap": 6, "years": 3.5}, {"id": "61-Snyman-Etienne", "surname": "Snyman", "name": "Etienne", "cell": "082 445 1356", "grade": "2nd", "hcap": 6, "years": 2.8}, {"id": "62-Potgieter-Nathan", "surname": "Potgieter", "name": "Nathan", "cell": "079 876 3050", "grade": "2nd", "hcap": 6, "years": 2.7}, {"id": "63-Andreadakis-Laki", "surname": "Andreadakis", "name": "Laki", "cell": "082 923 3104", "grade": "3rd", "hcap": 7, "years": 16.6}, {"id": "64-Cook-Gary", "surname": "Cook", "name": "Gary", "cell": "082 881 0081", "grade": "Lead", "hcap": 7, "years": 14.1}, {"id": "65-Locke-Diann", "surname": "Locke", "name": "Diann", "cell": "074 741 0246", "grade": "2nd", "hcap": 7, "years": 7.5}, {"id": "66-Wallder-Malcolm", "surname": "Wallder", "name": "Malcolm", "cell": "083 302 0818", "grade": "3rd", "hcap": 7, "years": 5.7}, {"id": "67-Strydom-Shaan", "surname": "Strydom", "name": "Shaan", "cell": "060 997 6764", "grade": "2nd", "hcap": 7, "years": 2.7}, {"id": "68-Robinson-Jean-Pierre", "surname": "Robinson", "name": "Jean-Pierre", "cell": "082 998 5114", "grade": "2nd", "hcap": 7, "years": 2.4}, {"id": "69-Rossouw-Leon", "surname": "Rossouw", "name": "Leon", "cell": "082 456 3954", "grade": "Lead", "hcap": 8, "years": 5.7}, {"id": "70-Ekron-Mervyn", "surname": "Ekron", "name": "Mervyn", "cell": "082 852 2754", "grade": "Lead", "hcap": 8, "years": 2.0}, {"id": "71-Botes-Schalk", "surname": "Botes", "name": "Schalk", "cell": "082 569 1955", "grade": "Lead", "hcap": 8, "years": 5.7}, {"id": "72-Poyurs-Peter", "surname": "Poyurs", "name": "Peter", "cell": "079 493 1732", "grade": "Lead", "hcap": 8, "years": 3.7}, {"id": "73-Morgan-Ken", "surname": "Morgan", "name": "Ken", "cell": "083 677 7099", "grade": "2nd", "hcap": 8, "years": 3.4}, {"id": "74-Anderson-Don", "surname": "Anderson", "name": "Don", "cell": "083 459 4525", "grade": "Lead", "hcap": 8, "years": 2.6}, {"id": "75-Laing-Errol", "surname": "Laing", "name": "Errol", "cell": "082 497 2468", "grade": "", "hcap": 8, "years": 2.5}, {"id": "76-Swartz-Robert", "surname": "Swartz", "name": "Robert", "cell": "082 565 8343", "grade": "Lead", "hcap": 9, "years": 2.3}, {"id": "77-Bell-Gordon", "surname": "Bell", "name": "Gordon", "cell": "083 212 9755", "grade": "Lead", "hcap": 9, "years": 2.1}, {"id": "78-Spaull-Marc", "surname": "Spaull", "name": "Marc", "cell": "082 453 4866", "grade": "Lead", "hcap": 9, "years": 2.1}, {"id": "79-Pretorius-Ed", "surname": "Pretorius", "name": "Ed", "cell": "062 429 8810", "grade": "Lead", "hcap": 10, "years": 1.2}, {"id": "80-Boesch-Tony", "surname": "Boesch", "name": "Tony", "cell": "083 283 5881", "grade": "Lead", "hcap": 9, "years": 2.1}, {"id": "81-Hugo-Liam", "surname": "Hugo", "name": "Liam", "cell": "082 823 9756", "grade": "Lead", "hcap": 10, "years": 3.5}, {"id": "82-Kennedy-Ryan", "surname": "Kennedy", "name": "Ryan", "cell": "083 653 4050", "grade": "Lead", "hcap": 10, "years": 3.4}, {"id": "83-Swanepoel-Lance", "surname": "Swanepoel", "name": "Lance", "cell": "079 932 1592", "grade": "Lead", "hcap": 10, "years": 2.8}, {"id": "84-Duncan-Taylon", "surname": "Duncan", "name": "Taylon", "cell": "072 876 7188", "grade": "Lead", "hcap": 10, "years": 1.2}, {"id": "85-Singh-Tanveer", "surname": "Singh", "name": "Tanveer", "cell": "072 330 3060", "grade": "Lead", "hcap": 10, "years": 1.2}, {"id": "86-Singh-Deeps", "surname": "Singh", "name": "Deeps", "cell": "082 490 9718", "grade": "Lead", "hcap": 10, "years": 1.2}, {"id": "87-Ramsay-Iain", "surname": "Ramsay", "name": "Iain", "cell": "083 252 6757", "grade": "Lead", "hcap": 10, "years": 1.0}, {"id": "88-Roddy-Mark", "surname": "Roddy", "name": "Mark", "cell": "072 403 7365", "grade": "Lead", "hcap": 10, "years": 1.0}, {"id": "89-Smith-Craig", "surname": "Smith", "name": "Craig", "cell": "", "grade": "Lead", "hcap": 10, "years": 0.8}, {"id": "90-Marnewick-Johann", "surname": "Marnewick", "name": "Johann", "cell": "082 497 5423", "grade": "Lead", "hcap": 10, "years": 0.8}, {"id": "91-van_Rooyen-Sean", "surname": "van Rooyen", "name": "Sean", "cell": "082 920 5546", "grade": "Lead", "hcap": 10, "years": 0.7}, {"id": "92-van_Rooyen-Mike", "surname": "van Rooyen", "name": "Mike", "cell": "082 448 6927", "grade": "Lead", "hcap": 10, "years": 0.7}, {"id": "93-Mkanse-William", "surname": "Mkanse", "name": "William", "cell": "076 628 2031", "grade": "Lead", "hcap": 10, "years": 0.6}, {"id": "94-Kruger-Anton", "surname": "Kruger", "name": "Anton", "cell": "082 787 0710", "grade": "Lead", "hcap": 10, "years": 0.6}, {"id": "95-Liguori-Joe", "surname": "Liguori", "name": "Joe", "cell": "082 444 9260", "grade": "Lead", "hcap": 10, "years": 0.4}, {"id": "96-Wilkinson-Grahame", "surname": "Wilkinson", "name": "Grahame", "cell": "083 263 9079", "grade": "Lead", "hcap": 10, "years": 0.5}, {"id": "97-Robertson-Michael", "surname": "Robertson", "name": "Michael", "cell": "083 658 2332", "grade": "Lead", "hcap": 10, "years": 0.5}, {"id": "98-Butow-Dereck", "surname": "Butow", "name": "Dereck", "cell": "082 348 9238", "grade": "Lead", "hcap": 10, "years": 0.4}, {"id": "99-Lochmann-Willy", "surname": "Lochmann", "name": "Willy", "cell": "082 452 0560", "grade": "Lead", "hcap": 10, "years": 0.4}, {"id": "100-Koekemoer-Neels", "surname": "Koekemoer", "name": "Neels", "cell": "079 895 0778", "grade": "Lead", "hcap": 10, "years": 0.3}, {"id": "101-Ramnarain-Liam", "surname": "Ramnarain", "name": "Liam", "cell": "069 924 4583", "grade": "Lead", "hcap": 10, "years": 0.2}, {"id": "102-Bouwer-Louis", "surname": "Bouwer", "name": "Louis", "cell": "082 533 7399", "grade": "Lead", "hcap": 10, "years": 0.2}, {"id": "103-Janse_v_Vuuren-Shawn", "surname": "Janse v Vuuren", "name": "Shawn", "cell": "076 816 3515", "grade": "Lead", "hcap": 10, "years": 0.1}, {"id": "104-Matthews-Tony", "surname": "Matthews", "name": "Tony", "cell": "082 783 8701", "grade": "Lead", "hcap": 10, "years": 0.1}, {"id": "105-Shankland-Lindsay", "surname": "Shankland", "name": "Lindsay", "cell": "066 290 0024", "grade": "Lead", "hcap": 10, "years": 0.1}, {"id": "106-Pearman-White-Mark", "surname": "Pearman-White", "name": "Mark", "cell": "082 456 0333", "grade": "Lead", "hcap": 10, "years": 0.1}, {"id": "107-Hawkins-Bella", "surname": "Hawkins", "name": "Bella", "cell": "083 227 3579", "grade": "Lead", "hcap": 10, "years": 0.1}];
 
+const RINK_OPTIONS = [
+  "BH1", "BH2", "BH3", "BH4", "BH5", "BH6",
+  "North1", "North2", "North3", "North4", "North5", "North6",
+];
+
 const DEFAULT_SETTINGS = {
   topThreshold: 10,
   topLimit: 1,
@@ -95,6 +100,101 @@ function formatTimeNice(t) {
   return d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
 }
 
+// Parses a handful of common date shapes an admin might paste: YYYY-MM-DD,
+// DD/MM/YYYY, or DD-MM-YYYY. Returns an ISO (YYYY-MM-DD) string or null.
+function parseFlexibleDate(text) {
+  if (!text) return null;
+  const s = text.trim();
+  let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (m) {
+    const [, y, mo, d] = m;
+    return `${y}-${mo.padStart(2, "0")}-${d.padStart(2, "0")}`;
+  }
+  m = s.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+  if (m) {
+    const [, d, mo, y] = m;
+    return `${y}-${mo.padStart(2, "0")}-${d.padStart(2, "0")}`;
+  }
+  return null;
+}
+
+function computeYearsMonthsActive(joinDateISO) {
+  const start = new Date(`${joinDateISO}T00:00:00`);
+  if (Number.isNaN(start.getTime())) return null;
+  const now = new Date();
+  let years = now.getFullYear() - start.getFullYear();
+  let months = now.getMonth() - start.getMonth();
+  if (now.getDate() < start.getDate()) months -= 1;
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+  if (years < 0) return { years: 0, months: 0 };
+  return { years, months };
+}
+
+// Shows real elapsed time since registration when we have a join date,
+// otherwise falls back to the old manually-maintained decimal "years" field.
+function formatYearsActive(bowler) {
+  if (bowler.joinDate) {
+    const r = computeYearsMonthsActive(bowler.joinDate);
+    if (r) {
+      const yPart = r.years > 0 ? `${r.years}y` : "";
+      const mPart = r.months > 0 ? `${r.months}m` : "";
+      if (!yPart && !mPart) return "<1m";
+      return [yPart, mPart].filter(Boolean).join(" ");
+    }
+  }
+  return `${bowler.years}y`;
+}
+
+// Parses pasted registration-date rows. Accepts a name (in any word order,
+// comma or space separated) followed by a date in YYYY-MM-DD or DD/MM/YYYY,
+// one bowler per line, e.g.:
+//   Donnelly Bobby, 2009-03-14
+//   Bobby Donnelly 14/03/2009
+function parseRegistrationDatesText(text) {
+  const lines = text.split("\n").map((l) => l.trim()).filter(Boolean);
+  const rows = [];
+  const problems = [];
+  for (const line of lines) {
+    const tokens = line.replace(/,/g, " ").split(/\s+/).filter(Boolean);
+    if (tokens.length < 2) {
+      problems.push(`Couldn't read line: "${line}"`);
+      continue;
+    }
+    const dateISO = parseFlexibleDate(tokens[tokens.length - 1]);
+    if (!dateISO) {
+      problems.push(`Couldn't read a date on: "${line}"`);
+      continue;
+    }
+    rows.push({ nameTokens: tokens.slice(0, -1), dateISO, raw: line });
+  }
+  return { rows, problems };
+}
+
+function nameTokenKey(tokens) {
+  return tokens.map((t) => t.toLowerCase()).sort().join(" ");
+}
+
+// Matches parsed rows against the ladder by comparing name word-sets
+// (order-independent, so "Donnelly Bobby" and "Bobby Donnelly" both match).
+function matchRegistrationDates(ladder, rows) {
+  const byKey = new Map();
+  ladder.forEach((b) => {
+    const tokens = `${b.surname} ${b.name}`.split(/\s+/).filter(Boolean);
+    byKey.set(nameTokenKey(tokens), b.id);
+  });
+  const matched = [];
+  const unmatched = [];
+  for (const row of rows) {
+    const id = byKey.get(nameTokenKey(row.nameTokens));
+    if (id) matched.push({ id, dateISO: row.dateISO, raw: row.raw });
+    else unmatched.push(row.raw);
+  }
+  return { matched, unmatched };
+}
+
 function toWhatsAppNumber(cell) {
   if (!cell) return null;
   let digits = cell.replace(/\D/g, "");
@@ -104,10 +204,11 @@ function toWhatsAppNumber(cell) {
   return digits;
 }
 
-function buildChallengeWhatsAppMessage({ meBowler, opponentBowler, myPosition, opponentPosition, dateISO, time }) {
+function buildChallengeWhatsAppMessage({ meBowler, opponentBowler, myPosition, opponentPosition, dateISO, time, rink }) {
   const dateBit = dateISO ? ` on ${formatDateNice(dateISO)}` : "";
   const timeBit = time ? ` at ${formatTimeNice(time)}` : "";
-  return `Hi ${opponentBowler.name}, it's ${meBowler.name} ${meBowler.surname} from the RCB ladder. I'm #${myPosition} and you're #${opponentPosition} \u2014 I'd like to challenge you. Are you free to play${dateBit}${timeBit}? Let me know if that works, or suggest another time. Cheers!`;
+  const rinkBit = rink ? ` on ${rink}` : "";
+  return `Hi ${opponentBowler.name}, it's ${meBowler.name} ${meBowler.surname} from the RCB ladder. I'm #${myPosition} and you're #${opponentPosition} \u2014 I'd like to challenge you. Are you free to play${dateBit}${timeBit}${rinkBit}? Let me know if that works, or suggest another time. Cheers!`;
 }
 
 function buildReminderWhatsAppMessage({ meBowler, otherBowler, dateISO, time }) {
@@ -647,14 +748,30 @@ function IdentityPicker({ ladder, onPick, onCancel, cancelable }) {
   );
 }
 
-function ChallengeComposer({ meBowler, opponentBowler, myPosition, opponentPosition, onCancel, onConfirm }) {
+function ChallengeComposer({ meBowler, opponentBowler, myPosition, opponentPosition, existingBookings, onCancel, onConfirm }) {
   const [dateISO, setDateISO] = useState(todayISO());
   const [time, setTime] = useState(defaultTimeHHMM());
+  const [rink, setRink] = useState("");
+  const [rinkError, setRinkError] = useState("");
   const hasWhatsApp = !!toWhatsAppNumber(opponentBowler.cell);
 
+  const bookedRinksAtSlot = (existingBookings || [])
+    .filter((b) => b.proposedDate === dateISO && b.proposedTime === time)
+    .map((b) => b.rink)
+    .filter(Boolean);
+
   const message = buildChallengeWhatsAppMessage({
-    meBowler, opponentBowler, myPosition, opponentPosition, dateISO, time,
+    meBowler, opponentBowler, myPosition, opponentPosition, dateISO, time, rink,
   });
+
+  const attemptConfirm = (details) => {
+    if (rink && bookedRinksAtSlot.includes(rink)) {
+      setRinkError(`${rink} is already booked for that date and time. Pick another rink or a different slot.`);
+      return;
+    }
+    setRinkError("");
+    onConfirm({ ...details, rink: rink || null });
+  };
 
   return (
     <div
@@ -741,6 +858,39 @@ function ChallengeComposer({ meBowler, opponentBowler, myPosition, opponentPosit
           </label>
         </div>
 
+        <label style={{ display: "block", fontFamily: "'Inter', sans-serif", fontSize: 12, color: COLORS.ink, marginBottom: 14 }}>
+          Rink
+          <select
+            value={rink}
+            onChange={(e) => { setRink(e.target.value); setRinkError(""); }}
+            style={{
+              display: "block",
+              width: "100%",
+              marginTop: 4,
+              padding: "8px 10px",
+              borderRadius: 8,
+              border: `1.5px solid ${rinkError ? COLORS.clay : COLORS.parchmentDeep}`,
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: 13,
+              color: COLORS.ink,
+              boxSizing: "border-box",
+              background: "#fff",
+            }}
+          >
+            <option value="">No rink chosen yet</option>
+            {RINK_OPTIONS.map((r) => (
+              <option key={r} value={r} disabled={bookedRinksAtSlot.includes(r)}>
+                {r}{bookedRinksAtSlot.includes(r) ? " (booked at that time)" : ""}
+              </option>
+            ))}
+          </select>
+          {rinkError && (
+            <div style={{ color: COLORS.clay, fontSize: 11.5, marginTop: 4, fontFamily: "'Inter', sans-serif" }}>
+              {rinkError}
+            </div>
+          )}
+        </label>
+
         <div
           style={{
             background: COLORS.parchmentDeep,
@@ -765,7 +915,7 @@ function ChallengeComposer({ meBowler, opponentBowler, myPosition, opponentPosit
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <button
             disabled={!hasWhatsApp}
-            onClick={() => onConfirm({ dateISO, time, sendWhatsApp: true, message })}
+            onClick={() => attemptConfirm({ dateISO, time, sendWhatsApp: true, message })}
             style={{
               padding: "11px 0",
               borderRadius: 9,
@@ -781,7 +931,7 @@ function ChallengeComposer({ meBowler, opponentBowler, myPosition, opponentPosit
             Send via WhatsApp
           </button>
           <button
-            onClick={() => onConfirm({ dateISO, time, sendWhatsApp: false, message })}
+            onClick={() => attemptConfirm({ dateISO, time, sendWhatsApp: false, message })}
             style={{
               padding: "10px 0",
               borderRadius: 9,
@@ -927,20 +1077,24 @@ function AdminLogin({ onUnlock, onCancel }) {
   );
 }
 
-function AdminPanel({ ladder, settings, oomLedger, onAdd, onDelete, onEdit, onImport, onSaveSettings, onMove, onAwardBonus, onDeleteOomEntry, onClose, onLock }) {
+function AdminPanel({ ladder, settings, oomLedger, onAdd, onDelete, onEdit, onImport, onImportJoinDates, onSaveSettings, onMove, onAwardBonus, onDeleteOomEntry, onClose, onLock }) {
   const [form, setForm] = useState({
-    name: "", surname: "", cell: "", grade: "", hcap: "", years: "", position: "",
+    name: "", surname: "", cell: "", grade: "", hcap: "", years: "", position: "", joinDate: "",
   });
   const [formError, setFormError] = useState("");
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const [moveDrafts, setMoveDrafts] = useState({});
   const [editingId, setEditingId] = useState(null);
-  const [editForm, setEditForm] = useState({ name: "", surname: "", cell: "", grade: "", hcap: "", years: "" });
+  const [editForm, setEditForm] = useState({ name: "", surname: "", cell: "", grade: "", hcap: "", years: "", joinDate: "" });
   const [editError, setEditError] = useState("");
   const [showSync, setShowSync] = useState(false);
   const [pasteText, setPasteText] = useState("");
   const [preview, setPreview] = useState(null);
   const [syncError, setSyncError] = useState("");
+  const [showJoinDates, setShowJoinDates] = useState(false);
+  const [joinDatesText, setJoinDatesText] = useState("");
+  const [joinDatesPreview, setJoinDatesPreview] = useState(null);
+  const [joinDatesError, setJoinDatesError] = useState("");
   const [showRules, setShowRules] = useState(false);
   const [rulesForm, setRulesForm] = useState({
     topThreshold: String(settings.topThreshold),
@@ -1042,8 +1196,9 @@ function AdminPanel({ ladder, settings, oomLedger, onAdd, onDelete, onEdit, onIm
       hcap: form.hcap === "" ? 0 : Number(form.hcap),
       years: form.years === "" ? 0 : Number(form.years),
       position: form.position === "" ? null : Number(form.position),
+      joinDate: form.joinDate || null,
     });
-    setForm({ name: "", surname: "", cell: "", grade: "", hcap: "", years: "", position: "" });
+    setForm({ name: "", surname: "", cell: "", grade: "", hcap: "", years: "", position: "", joinDate: "" });
   };
 
   const startEdit = (b) => {
@@ -1057,6 +1212,7 @@ function AdminPanel({ ladder, settings, oomLedger, onAdd, onDelete, onEdit, onIm
       grade: b.grade || "",
       hcap: String(b.hcap),
       years: String(b.years),
+      joinDate: b.joinDate || "",
     });
   };
 
@@ -1077,6 +1233,7 @@ function AdminPanel({ ladder, settings, oomLedger, onAdd, onDelete, onEdit, onIm
       grade: editForm.grade.trim(),
       hcap: editForm.hcap === "" ? 0 : Number(editForm.hcap),
       years: editForm.years === "" ? 0 : Number(editForm.years),
+      joinDate: editForm.joinDate || null,
     });
     setEditingId(null);
     setEditError("");
@@ -1123,6 +1280,26 @@ function AdminPanel({ ladder, settings, oomLedger, onAdd, onDelete, onEdit, onIm
     setPreview(null);
     setPasteText("");
     setShowSync(false);
+  };
+
+  const runJoinDatesPreview = () => {
+    setJoinDatesError("");
+    setJoinDatesPreview(null);
+    const { rows, problems } = parseRegistrationDatesText(joinDatesText);
+    if (rows.length === 0) {
+      setJoinDatesError("Couldn't find any valid rows. Each line needs a name and a date.");
+      return;
+    }
+    const { matched, unmatched } = matchRegistrationDates(ladder, rows);
+    setJoinDatesPreview({ matched, unmatched, problems });
+  };
+
+  const applyJoinDates = () => {
+    if (!joinDatesPreview || joinDatesPreview.matched.length === 0) return;
+    onImportJoinDates(joinDatesPreview.matched);
+    setJoinDatesPreview(null);
+    setJoinDatesText("");
+    setShowJoinDates(false);
   };
 
   return (
@@ -1521,8 +1698,17 @@ function AdminPanel({ ladder, settings, oomLedger, onAdd, onDelete, onEdit, onIm
             <input placeholder="Cell number" value={form.cell} onChange={(e) => updateField("cell", e.target.value)} style={inputStyle} />
             <input placeholder="Grade (e.g. Skip, 2nd+)" value={form.grade} onChange={(e) => updateField("grade", e.target.value)} style={inputStyle} />
             <input placeholder="Handicap" type="number" value={form.hcap} onChange={(e) => updateField("hcap", e.target.value)} style={inputStyle} />
-            <input placeholder="Years playing" type="number" step="0.1" value={form.years} onChange={(e) => updateField("years", e.target.value)} style={inputStyle} />
+            <input placeholder="Years playing (only used if no registration date)" type="number" step="0.1" value={form.years} onChange={(e) => updateField("years", e.target.value)} style={inputStyle} />
           </div>
+          <label style={{ display: "block", fontSize: 11.5, color: COLORS.slate, marginBottom: 8 }}>
+            Registration date (if set, "years active" is calculated from this instead of the manual number above)
+            <input
+              type="date"
+              value={form.joinDate}
+              onChange={(e) => updateField("joinDate", e.target.value)}
+              style={{ ...inputStyle, marginTop: 4 }}
+            />
+          </label>
           <input
             placeholder={`Insert at position (blank = add at #${ladder.length + 1}, bottom)`}
             type="number"
@@ -1695,6 +1881,145 @@ function AdminPanel({ ladder, settings, oomLedger, onAdd, onDelete, onEdit, onIm
           )}
         </div>
 
+        {/* Import registration dates */}
+        <div style={{ marginBottom: 18 }}>
+          <button
+            onClick={() => setShowJoinDates((s) => !s)}
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "10px 14px",
+              borderRadius: 10,
+              border: `1px solid ${COLORS.brass}`,
+              background: "rgba(42,157,143,0.08)",
+              color: COLORS.lawnDark,
+              fontFamily: "'Fraunces', serif",
+              fontSize: 15,
+              cursor: "pointer",
+            }}
+          >
+            <span>Import registration dates</span>
+            <span style={{ fontSize: 12, color: COLORS.brass }}>{showJoinDates ? "Hide ▴" : "Show ▾"}</span>
+          </button>
+
+          {showJoinDates && (
+            <div style={{ marginTop: 10, background: COLORS.parchmentDeep, borderRadius: 12, padding: 14 }}>
+              <div style={{ fontSize: 12, color: COLORS.slate, marginBottom: 8, lineHeight: 1.5 }}>
+                Paste one bowler per line: a name (either word order works) followed by their
+                registration date, e.g. <code>Donnelly Bobby 2009-03-14</code> or{" "}
+                <code>Bobby Donnelly, 14/03/2009</code>. Once set, "years active" is calculated
+                from this date automatically instead of the old manually-typed number.
+              </div>
+              <textarea
+                value={joinDatesText}
+                onChange={(e) => { setJoinDatesText(e.target.value); setJoinDatesPreview(null); setJoinDatesError(""); }}
+                placeholder={"Donnelly Bobby 2009-03-14\nBarnard Richard 12/06/2010\n..."}
+                rows={6}
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  padding: "8px 10px",
+                  borderRadius: 8,
+                  border: `1.5px solid ${COLORS.parchment}`,
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontSize: 11.5,
+                  marginBottom: 10,
+                  resize: "vertical",
+                }}
+              />
+              {joinDatesError && <div style={{ color: COLORS.clay, fontSize: 12, marginBottom: 8 }}>{joinDatesError}</div>}
+
+              {!joinDatesPreview ? (
+                <button
+                  onClick={runJoinDatesPreview}
+                  disabled={!joinDatesText.trim()}
+                  style={{
+                    width: "100%",
+                    padding: "9px 0",
+                    borderRadius: 8,
+                    border: "none",
+                    background: joinDatesText.trim() ? COLORS.lawn : COLORS.parchment,
+                    color: joinDatesText.trim() ? COLORS.parchment : COLORS.slate,
+                    fontFamily: "'Inter', sans-serif",
+                    fontWeight: 600,
+                    fontSize: 13.5,
+                    cursor: joinDatesText.trim() ? "pointer" : "not-allowed",
+                  }}
+                >
+                  Preview matches
+                </button>
+              ) : (
+                <div>
+                  <div
+                    style={{
+                      background: COLORS.parchment,
+                      borderRadius: 10,
+                      padding: 12,
+                      fontSize: 12.5,
+                      color: COLORS.ink,
+                      marginBottom: 10,
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    <strong>{joinDatesPreview.matched.length}</strong> matched to a bowler on the ladder.
+                    {joinDatesPreview.unmatched.length > 0 && (
+                      <div style={{ color: COLORS.clay, marginTop: 6 }}>
+                        {joinDatesPreview.unmatched.length} line(s) didn't match anyone by name:
+                        <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 11, marginTop: 4 }}>
+                          {joinDatesPreview.unmatched.join(" · ")}
+                        </div>
+                      </div>
+                    )}
+                    {joinDatesPreview.problems.length > 0 && (
+                      <div style={{ color: COLORS.clay, marginTop: 6 }}>
+                        {joinDatesPreview.problems.length} line(s) couldn't be read at all.
+                      </div>
+                    )}
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <button
+                      onClick={applyJoinDates}
+                      disabled={joinDatesPreview.matched.length === 0}
+                      style={{
+                        flex: 1,
+                        padding: "9px 0",
+                        borderRadius: 8,
+                        border: "none",
+                        background: joinDatesPreview.matched.length > 0 ? COLORS.lawn : COLORS.parchment,
+                        color: joinDatesPreview.matched.length > 0 ? COLORS.parchment : COLORS.slate,
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 700,
+                        fontSize: 13.5,
+                        cursor: joinDatesPreview.matched.length > 0 ? "pointer" : "not-allowed",
+                      }}
+                    >
+                      Apply {joinDatesPreview.matched.length} date{joinDatesPreview.matched.length === 1 ? "" : "s"}
+                    </button>
+                    <button
+                      onClick={() => setJoinDatesPreview(null)}
+                      style={{
+                        flex: 1,
+                        padding: "9px 0",
+                        borderRadius: 8,
+                        border: `1px solid ${COLORS.slate}`,
+                        background: "transparent",
+                        color: COLORS.slate,
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: 13.5,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
         {/* Players table */}
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "'Inter', sans-serif", fontSize: 12.5 }}>
@@ -1759,13 +2084,23 @@ function AdminPanel({ ladder, settings, oomLedger, onAdd, onDelete, onEdit, onIm
                         />
                       </td>
                       <td style={{ padding: "6px 6px" }}>
-                        <input
-                          type="number"
-                          step="0.1"
-                          value={editForm.years}
-                          onChange={(e) => setEditForm((f) => ({ ...f, years: e.target.value }))}
-                          style={{ ...tableInputStyle, width: 52 }}
-                        />
+                        <div style={{ display: "flex", flexDirection: "column", gap: 3, minWidth: 100 }}>
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={editForm.years}
+                            onChange={(e) => setEditForm((f) => ({ ...f, years: e.target.value }))}
+                            placeholder="Manual years"
+                            style={{ ...tableInputStyle, width: 90 }}
+                          />
+                          <input
+                            type="date"
+                            value={editForm.joinDate}
+                            onChange={(e) => setEditForm((f) => ({ ...f, joinDate: e.target.value }))}
+                            title="Registration date (overrides manual years if set)"
+                            style={{ ...tableInputStyle, width: 130 }}
+                          />
+                        </div>
                       </td>
                     </>
                   ) : (
@@ -1774,7 +2109,7 @@ function AdminPanel({ ladder, settings, oomLedger, onAdd, onDelete, onEdit, onIm
                       <td style={{ padding: "6px 6px", fontFamily: "'IBM Plex Mono', monospace" }}>{b.cell || "\u2014"}</td>
                       <td style={{ padding: "6px 6px" }}>{gradeLabel(b.grade)}</td>
                       <td style={{ padding: "6px 6px" }}>{b.hcap}</td>
-                      <td style={{ padding: "6px 6px" }}>{b.years}</td>
+                      <td style={{ padding: "6px 6px" }}>{formatYearsActive(b)}</td>
                     </>
                   )}
                   <td style={{ padding: "6px 6px", whiteSpace: "nowrap" }}>
@@ -2037,6 +2372,92 @@ function OrderOfMeritView({ standings, recentEntries, settings }) {
   );
 }
 
+function GreenBookingsView({ bookings }) {
+  const sorted = [...bookings].sort((a, b) => {
+    const aKey = `${a.proposedDate || "9999"}T${a.proposedTime || "99:99"}`;
+    const bKey = `${b.proposedDate || "9999"}T${b.proposedTime || "99:99"}`;
+    return aKey.localeCompare(bKey);
+  });
+
+  return (
+    <div style={{ marginBottom: 22 }}>
+      <div
+        style={{
+          background: "rgba(244,239,226,0.08)",
+          border: `1px solid rgba(216,178,110,0.35)`,
+          borderRadius: 10,
+          padding: "10px 14px",
+          fontSize: 12.5,
+          color: COLORS.parchment,
+          lineHeight: 1.6,
+          marginBottom: 16,
+        }}
+      >
+        Every rink booked for an upcoming challenge, in date/time order. This view is
+        read-only — no login needed, just for keeping an eye on which rinks are in use.
+      </div>
+
+      {sorted.length === 0 ? (
+        <div
+          style={{
+            background: COLORS.parchment,
+            borderRadius: 12,
+            padding: "16px 14px",
+            textAlign: "center",
+            color: COLORS.slate,
+            fontSize: 13,
+          }}
+        >
+          No rinks currently booked.
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {sorted.map((b) => (
+            <div
+              key={b.id}
+              style={{
+                background: COLORS.parchment,
+                borderRadius: 12,
+                padding: "11px 14px",
+                border: `1px solid ${COLORS.parchmentDeep}`,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: 10,
+                flexWrap: "wrap",
+              }}
+            >
+              <div>
+                <div style={{ fontSize: 13, color: COLORS.ink, fontWeight: 600 }}>
+                  {displayName(b.challenger)} vs {displayName(b.opponent)}
+                </div>
+                <div style={{ fontSize: 11.5, color: COLORS.slate, fontFamily: "'IBM Plex Mono', monospace", marginTop: 2 }}>
+                  {b.proposedDate ? formatDateNice(b.proposedDate) : "Date TBC"}
+                  {b.proposedTime ? ` at ${formatTimeNice(b.proposedTime)}` : ""}
+                </div>
+              </div>
+              <div
+                style={{
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  fontWeight: 700,
+                  fontSize: 13,
+                  color: b.rink ? "#fff" : COLORS.slate,
+                  background: b.rink ? COLORS.brass : COLORS.parchmentDeep,
+                  borderRadius: 8,
+                  padding: "5px 10px",
+                  flexShrink: 0,
+                }}
+              >
+                {b.rink || "No rink yet"}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function App() {
   const {
     ladder, challenges, myId, isAdmin, settings, oomLedger, oomTracking, ready, err, setErr,
@@ -2052,7 +2473,7 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [composerTarget, setComposerTarget] = useState(null);
   const [editingScheduleId, setEditingScheduleId] = useState(null);
-  const [scheduleDraft, setScheduleDraft] = useState({ date: "", time: "" });
+  const [scheduleDraft, setScheduleDraft] = useState({ date: "", time: "", rink: "" });
   const [confirmCancelId, setConfirmCancelId] = useState(null);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
@@ -2190,6 +2611,16 @@ export default function App() {
       showToast("That bowler already has a challenge in progress.", "error");
       return;
     }
+    if (details.rink && details.dateISO && details.time) {
+      const clash = (challenges || []).some(
+        (c) => c.status === "pending" && c.rink === details.rink &&
+          c.proposedDate === details.dateISO && c.proposedTime === details.time
+      );
+      if (clash) {
+        showToast(`${details.rink} was just booked for that slot by someone else \u2014 pick another.`, "error");
+        return;
+      }
+    }
     setBusy(true);
     const opponentPosition = ladder.findIndex((x) => x.id === opponentId) + 1;
     const opp = ladder.find((x) => x.id === opponentId);
@@ -2205,6 +2636,7 @@ export default function App() {
         opponentPosition,
         proposedDate: details.dateISO || null,
         proposedTime: details.time || null,
+        rink: details.rink || null,
       },
     ];
     await persistChallenges(next);
@@ -2320,18 +2752,32 @@ export default function App() {
 
   const startEditingSchedule = (challenge) => {
     setEditingScheduleId(challenge.id);
-    setScheduleDraft({ date: challenge.proposedDate || todayISO(), time: challenge.proposedTime || defaultTimeHHMM() });
+    setScheduleDraft({
+      date: challenge.proposedDate || todayISO(),
+      time: challenge.proposedTime || defaultTimeHHMM(),
+      rink: challenge.rink || "",
+    });
   };
 
   const saveSchedule = async (challengeId) => {
+    if (scheduleDraft.rink && scheduleDraft.date && scheduleDraft.time) {
+      const clash = (challenges || []).some(
+        (c) => c.id !== challengeId && c.status === "pending" && c.rink === scheduleDraft.rink &&
+          c.proposedDate === scheduleDraft.date && c.proposedTime === scheduleDraft.time
+      );
+      if (clash) {
+        showToast(`${scheduleDraft.rink} is already booked for that date and time.`, "error");
+        return;
+      }
+    }
     const next = (challenges || []).map((c) =>
       c.id === challengeId
-        ? { ...c, proposedDate: scheduleDraft.date || null, proposedTime: scheduleDraft.time || null }
+        ? { ...c, proposedDate: scheduleDraft.date || null, proposedTime: scheduleDraft.time || null, rink: scheduleDraft.rink || null }
         : c
     );
     await persistChallenges(next);
     setEditingScheduleId(null);
-    showToast("Match date/time updated.");
+    showToast("Match details updated.");
   };
 
   const cancelChallenge = async (challengeId) => {
@@ -2406,6 +2852,13 @@ export default function App() {
     const next = ladder.map((b) => (b.id === id ? { ...b, ...updates } : b));
     await persistLadder(next);
     showToast(`${displayName(updates)} updated.`);
+  };
+
+  const importJoinDates = async (matched) => {
+    const byId = new Map(matched.map((m) => [m.id, m.dateISO]));
+    const next = ladder.map((b) => (byId.has(b.id) ? { ...b, joinDate: byId.get(b.id) } : b));
+    await persistLadder(next);
+    showToast(`Registration date set for ${matched.length} bowler${matched.length === 1 ? "" : "s"}.`);
   };
 
   const importLadder = async (nextLadder) => {
@@ -2511,6 +2964,7 @@ export default function App() {
           opponentBowler={composerTarget}
           myPosition={myPosition}
           opponentPosition={composerTarget.position}
+          existingBookings={(challenges || []).filter((c) => c.status === "pending")}
           onCancel={() => setComposerTarget(null)}
           onConfirm={(details) => issueChallenge(composerTarget.id, details)}
         />
@@ -2530,6 +2984,7 @@ export default function App() {
           onDelete={deletePlayer}
           onEdit={editPlayer}
           onImport={importLadder}
+          onImportJoinDates={importJoinDates}
           onSaveSettings={handleSaveSettings}
           onMove={movePlayer}
           onAwardBonus={awardBonusPoints}
@@ -2732,10 +3187,30 @@ export default function App() {
           >
             Order of Merit
           </button>
+          <button
+            onClick={() => setMainView("greens")}
+            style={{
+              flex: 1,
+              padding: "10px 0",
+              border: "none",
+              background: mainView === "greens" ? COLORS.brass : "rgba(255,255,255,0.12)",
+              color: mainView === "greens" ? "#fff" : COLORS.parchment,
+              fontFamily: "'Fraunces', serif",
+              fontSize: 14.5,
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+          >
+            Green Bookings
+          </button>
         </div>
 
         {mainView === "oom" && (
           <OrderOfMeritView standings={oomStandings} recentEntries={recentOomEntries} settings={settings} />
+        )}
+
+        {mainView === "greens" && (
+          <GreenBookingsView bookings={pendingChallenges} />
         )}
 
         {mainView === "ladder" && (
@@ -2769,7 +3244,7 @@ export default function App() {
                     {" "}challenges{" "}
                     <strong>#{c.opponent.position} {displayName(c.opponent)}</strong>
                   </div>
-                  {(c.proposedDate || c.proposedTime) && editingScheduleId !== c.id && (
+                  {(c.proposedDate || c.proposedTime || c.rink) && editingScheduleId !== c.id && (
                     <div
                       style={{
                         fontSize: 12,
@@ -2785,6 +3260,7 @@ export default function App() {
                       <span>
                         Proposed: {c.proposedDate ? formatDateNice(c.proposedDate) : ""}
                         {c.proposedTime ? ` at ${formatTimeNice(c.proposedTime)}` : ""}
+                        {c.rink ? ` \u2014 ${c.rink}` : ""}
                       </span>
                       {canEditSchedule(c) && (
                         <button
@@ -2805,7 +3281,7 @@ export default function App() {
                       )}
                     </div>
                   )}
-                  {!(c.proposedDate || c.proposedTime) && editingScheduleId !== c.id && canEditSchedule(c) && (
+                  {!(c.proposedDate || c.proposedTime || c.rink) && editingScheduleId !== c.id && canEditSchedule(c) && (
                     <button
                       onClick={() => startEditingSchedule(c)}
                       style={{
@@ -2821,7 +3297,7 @@ export default function App() {
                         display: "block",
                       }}
                     >
-                      Set a date/time
+                      Set a date/time/rink
                     </button>
                   )}
                   {editingScheduleId === c.id && (
@@ -2864,6 +3340,31 @@ export default function App() {
                           }}
                         />
                       </div>
+                      <select
+                        value={scheduleDraft.rink}
+                        onChange={(e) => setScheduleDraft((d) => ({ ...d, rink: e.target.value }))}
+                        style={{
+                          padding: "6px 8px",
+                          borderRadius: 6,
+                          border: `1.5px solid ${COLORS.parchment}`,
+                          fontFamily: "'IBM Plex Mono', monospace",
+                          fontSize: 12,
+                          background: "#fff",
+                        }}
+                      >
+                        <option value="">No rink chosen yet</option>
+                        {RINK_OPTIONS.map((r) => {
+                          const takenByOther = (challenges || []).some(
+                            (other) => other.id !== c.id && other.status === "pending" && other.rink === r &&
+                              other.proposedDate === scheduleDraft.date && other.proposedTime === scheduleDraft.time
+                          );
+                          return (
+                            <option key={r} value={r} disabled={takenByOther}>
+                              {r}{takenByOther ? " (booked at that time)" : ""}
+                            </option>
+                          );
+                        })}
+                      </select>
                       <div style={{ display: "flex", gap: 8 }}>
                         <button
                           onClick={() => saveSchedule(c.id)}
@@ -3225,7 +3726,7 @@ export default function App() {
                         <td style={{ padding: "7px 6px" }}>{gradeLabel(b.grade)}</td>
                         <td style={{ padding: "7px 6px" }}><PhoneLink cell={b.cell} /></td>
                         <td style={{ padding: "7px 6px", fontFamily: "'IBM Plex Mono', monospace" }}>{b.hcap}</td>
-                        <td style={{ padding: "7px 6px", fontFamily: "'IBM Plex Mono', monospace" }}>{b.years}</td>
+                        <td style={{ padding: "7px 6px", fontFamily: "'IBM Plex Mono', monospace" }}>{formatYearsActive(b)}</td>
                         <td style={{ padding: "7px 6px" }}>
                           {canChallenge && (
                             <button
@@ -3290,7 +3791,7 @@ export default function App() {
                     <div style={{ display: "flex", gap: 10, marginTop: 3, flexWrap: "wrap", alignItems: "center" }}>
                       <PhoneLink cell={b.cell} />
                       <span style={{ fontSize: 11.5, color: COLORS.slate, fontFamily: "'IBM Plex Mono', monospace" }}>
-                        hcap {b.hcap} · {b.years}y
+                        hcap {b.hcap} · {formatYearsActive(b)}
                       </span>
                     </div>
                   </div>
