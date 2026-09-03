@@ -9,7 +9,7 @@
   "kv_namespaces": [
     {
       "binding": "STORAGE",
-      "id": "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+      "id": "e6421ad6e6e44fc887c9a6be97f7633c"
     }
   ],
   "triggers": {
