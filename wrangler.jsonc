@@ -8,7 +8,7 @@
   },
   "kv_namespaces": [
     {
-      "binding": "STORAGE",
+      "binding": "ST_Temp",
       "id": "57f3d27f2e914622a9219a0b2608c930"
     }
   ],
