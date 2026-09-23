@@ -212,7 +212,7 @@ function buildChallengeWhatsAppMessage({ meBowler, opponentBowler, myPosition, o
 function buildReminderWhatsAppMessage({ meBowler, otherBowler, dateISO, time }) {
   const dateBit = dateISO ? ` on ${formatDateNice(dateISO)}` : "";
   const timeBit = time ? ` at ${formatTimeNice(time)}` : "";
-  return `Hi ${otherBowler.name}, just following up on our RBC ladder challenge${dateBit}${timeBit}. Let me know if that still suits. \u2014 ${meBowler.name}`;
+  return `Hi ${otherBowler.name}, just following up on our RCB ladder challenge${dateBit}${timeBit}. Let me know if that still suits. \u2014 ${meBowler.name}`;
 }
 
 const GRADE_RE = /^(Skip|Lead\+?|\d+(st|nd|rd|th)\+?)$/;
