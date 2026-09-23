@@ -3486,7 +3486,9 @@ export default function App() {
                       </div>
                     </div>
                   )}
+                  {(myId === c.challengerId || myId === c.opponentId || isAdmin) && (
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+                    {(myId === c.challengerId || isAdmin) && (
                     <button
                       onClick={() => sendReminderWhatsApp(c.challenger, c.opponent, c.proposedDate, c.proposedTime)}
                       style={{
@@ -3503,6 +3505,8 @@ export default function App() {
                     >
                       Nudge {c.opponent.name} on WhatsApp
                     </button>
+                    )}
+                    {(myId === c.opponentId || isAdmin) && (
                     <button
                       onClick={() => sendReminderWhatsApp(c.opponent, c.challenger, c.proposedDate, c.proposedTime)}
                       style={{
@@ -3519,7 +3523,9 @@ export default function App() {
                     >
                       Nudge {c.challenger.name} on WhatsApp
                     </button>
+                    )}
                   </div>
+                  )}
                   {canRecordResult(c) ? (
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                     <button
