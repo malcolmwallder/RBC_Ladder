@@ -23,6 +23,11 @@ const DEFAULT_SETTINGS = {
   oomInactivityPenalty: -5,
 };
 const ADMIN_PASSCODE = "RCB2026";
+// Greenkeeper passcode: lets the greenkeeper assign a green + rink to each
+// scheduled match on the Green Bookings tab (admins can do this too).
+const GREENKEEPER_PASSCODE = "GREEN2026";
+const GREENS = ["North", "South"];
+const RINKS_PER_GREEN = 6;
 // Results can be recorded (and undone) by the two bowlers in a challenge.
 // Set this to true to also let an unlocked admin do it (handy if a player
 // can't get to their phone). Set to false for strictly "players only".
@@ -206,13 +211,13 @@ function toWhatsAppNumber(cell) {
 function buildChallengeWhatsAppMessage({ meBowler, opponentBowler, myPosition, opponentPosition, dateISO, time }) {
   const dateBit = dateISO ? ` on ${formatDateNice(dateISO)}` : "";
   const timeBit = time ? ` at ${formatTimeNice(time)}` : "";
-  return `Hi ${opponentBowler.name}, it's ${meBowler.name} ${meBowler.surname} from the RCB ladder. I'm #${myPosition} and you're #${opponentPosition} \u2014 I'd like to challenge you. Are you free to play${dateBit}${timeBit}? Let me know if that works, or suggest another time. Cheers!`;
+  return `Hi ${opponentBowler.name}, it's ${meBowler.name} ${meBowler.surname} from the RBC ladder. I'm #${myPosition} and you're #${opponentPosition} \u2014 I'd like to challenge you. Are you free to play${dateBit}${timeBit}? Let me know if that works, or suggest another time. Cheers!`;
 }
 
 function buildReminderWhatsAppMessage({ meBowler, otherBowler, dateISO, time }) {
   const dateBit = dateISO ? ` on ${formatDateNice(dateISO)}` : "";
   const timeBit = time ? ` at ${formatTimeNice(time)}` : "";
-  return `Hi ${otherBowler.name}, just following up on our RCB ladder challenge${dateBit}${timeBit}. Let me know if that still suits. \u2014 ${meBowler.name}`;
+  return `Hi ${otherBowler.name}, just following up on our RBC ladder challenge${dateBit}${timeBit}. Let me know if that still suits. \u2014 ${meBowler.name}`;
 }
 
 const GRADE_RE = /^(Skip|Lead\+?|\d+(st|nd|rd|th)\+?)$/;
@@ -641,7 +646,7 @@ function IdentityPicker({ ladder, onPick, onCancel, cancelable }) {
         }}
       >
         <div style={{ padding: "20px 22px 14px" }}>
-          <img src={LOGO_SRC} alt="RCB logo" style={{ width: 36, height: 36, marginBottom: 8 }} />
+          <img src={LOGO_SRC} alt="RBC logo" style={{ width: 36, height: 36, marginBottom: 8 }} />
           <div
             style={{
               fontFamily: "'Fraunces', serif",
@@ -916,12 +921,12 @@ function ChallengeComposer({ meBowler, opponentBowler, myPosition, opponentPosit
   );
 }
 
-function AdminLogin({ onUnlock, onCancel }) {
+function AdminLogin({ onUnlock, onCancel, title = "Admin access", passcode = ADMIN_PASSCODE }) {
   const [pin, setPin] = useState("");
   const [error, setError] = useState("");
 
   const submit = () => {
-    if (pin === ADMIN_PASSCODE) {
+    if (pin === passcode) {
       onUnlock();
     } else {
       setError("That passcode isn't right.");
@@ -952,7 +957,7 @@ function AdminLogin({ onUnlock, onCancel }) {
           padding: "22px 22px 18px",
         }}
       >
-        <img src={LOGO_SRC} alt="RCB logo" style={{ width: 36, height: 36, marginBottom: 8 }} />
+        <img src={LOGO_SRC} alt="RBC logo" style={{ width: 36, height: 36, marginBottom: 8 }} />
         <div
           style={{
             fontFamily: "'Fraunces', serif",
@@ -962,7 +967,7 @@ function AdminLogin({ onUnlock, onCancel }) {
             marginBottom: 10,
           }}
         >
-          Admin access
+          {title}
         </div>
         <input
           autoFocus
@@ -2321,7 +2326,78 @@ function OrderOfMeritView({ standings, recentEntries, settings }) {
   );
 }
 
-function GreenBookingsView({ bookings }) {
+function RinkAssigner({ booking, allBookings, onAssign }) {
+  const green = booking.green || "";
+  const rink = booking.rink || "";
+  const taken = new Set();
+  if (green) {
+    for (const o of allBookings) {
+      if (o.id === booking.id || !o.green || !o.rink) continue;
+      if (o.green === green && o.proposedDate === booking.proposedDate && (o.proposedTime || "") === (booking.proposedTime || "")) {
+        taken.add(Number(o.rink));
+      }
+    }
+  }
+  const selStyle = {
+    padding: "5px 8px",
+    borderRadius: 7,
+    border: `1.5px solid ${COLORS.parchmentDeep}`,
+    fontFamily: "'Inter', sans-serif",
+    fontSize: 12.5,
+    background: "#fff",
+    color: COLORS.ink,
+  };
+  return (
+    <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+      <select
+        value={green}
+        onChange={(e) => onAssign(booking.id, e.target.value || null, e.target.value ? rink || null : null)}
+        style={selStyle}
+        aria-label="Green"
+      >
+        <option value="">Green…</option>
+        {GREENS.map((g) => (
+          <option key={g} value={g}>{g} green</option>
+        ))}
+      </select>
+      <select
+        value={rink}
+        disabled={!green}
+        onChange={(e) => onAssign(booking.id, green, e.target.value ? Number(e.target.value) : null)}
+        style={{ ...selStyle, opacity: green ? 1 : 0.5 }}
+        aria-label="Rink"
+      >
+        <option value="">Rink…</option>
+        {Array.from({ length: RINKS_PER_GREEN }, (_, i) => i + 1).map((r) => (
+          <option key={r} value={r} disabled={taken.has(r)}>
+            Rink {r}{taken.has(r) ? " (taken)" : ""}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function RinkBadge({ booking }) {
+  if (!booking.green) return null;
+  return (
+    <span
+      style={{
+        fontSize: 11.5,
+        fontWeight: 700,
+        color: COLORS.parchment,
+        background: COLORS.lawnDark,
+        borderRadius: 6,
+        padding: "2px 8px",
+        fontFamily: "'IBM Plex Mono', monospace",
+      }}
+    >
+      {booking.green}{booking.rink ? ` · Rink ${booking.rink}` : ""}
+    </span>
+  );
+}
+
+function GreenBookingsView({ bookings, canAssign, onAssign, isGreenkeeper, onGreenkeeperLogin, onGreenkeeperLock }) {
   const withDate = bookings.filter((b) => b.proposedDate);
   const withoutDate = bookings.filter((b) => !b.proposedDate);
 
@@ -2351,7 +2427,32 @@ function GreenBookingsView({ bookings }) {
         }}
       >
         Every scheduled challenge, grouped by day, so it's easy to see how many
-        greens to prepare. Read-only — no login needed.
+        greens to prepare. Viewing needs no login.
+        {canAssign ? (
+          <div style={{ marginTop: 6, color: COLORS.brassLight }}>
+            You can assign a green (North or South) and a rink (1–{RINKS_PER_GREEN}) to each match below.
+            {isGreenkeeper && (
+              <>
+                {" "}
+                <button
+                  onClick={onGreenkeeperLock}
+                  style={{ border: "none", background: "none", color: COLORS.parchment, textDecoration: "underline", cursor: "pointer", fontSize: 12, padding: 0 }}
+                >
+                  Lock greenkeeper access
+                </button>
+              </>
+            )}
+          </div>
+        ) : (
+          <div style={{ marginTop: 6 }}>
+            <button
+              onClick={onGreenkeeperLogin}
+              style={{ border: "none", background: "none", color: COLORS.brassLight, textDecoration: "underline", cursor: "pointer", fontSize: 12, padding: 0 }}
+            >
+              Greenkeeper login
+            </button>
+          </div>
+        )}
       </div>
 
       {bookings.length === 0 ? (
@@ -2406,9 +2507,17 @@ function GreenBookingsView({ bookings }) {
                     <span style={{ fontSize: 13, color: COLORS.ink, fontWeight: 600 }}>
                       {displayName(b.challenger)} vs {displayName(b.opponent)}
                     </span>
-                    <span style={{ fontSize: 12, color: COLORS.slate, fontFamily: "'IBM Plex Mono', monospace" }}>
-                      {b.proposedTime ? formatTimeNice(b.proposedTime) : "Time TBC"}
+                    <span style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                      <RinkBadge booking={b} />
+                      <span style={{ fontSize: 12, color: COLORS.slate, fontFamily: "'IBM Plex Mono', monospace" }}>
+                        {b.proposedTime ? formatTimeNice(b.proposedTime) : "Time TBC"}
+                      </span>
                     </span>
+                    {canAssign && (
+                      <div style={{ width: "100%" }}>
+                        <RinkAssigner booking={b} allBookings={bookings} onAssign={onAssign} />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -2446,7 +2555,13 @@ function GreenBookingsView({ bookings }) {
                   >
                     <span style={{ fontSize: 13, color: COLORS.ink, fontWeight: 600 }}>
                       {displayName(b.challenger)} vs {displayName(b.opponent)}
-                    </span>
+                    </span>{" "}
+                    <RinkBadge booking={b} />
+                    {canAssign && (
+                      <div style={{ marginTop: 6 }}>
+                        <RinkAssigner booking={b} allBookings={bookings} onAssign={onAssign} />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -2478,10 +2593,45 @@ export default function App() {
   const [confirmUndoId, setConfirmUndoId] = useState(null);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [isGreenkeeper, setIsGreenkeeper] = useState(false);
+  const [showGreenkeeperLogin, setShowGreenkeeperLogin] = useState(false);
   const [viewMode, setViewMode] = useState("table");
   const [mainView, setMainView] = useState("ladder");
 
   const showToast = (message, kind = "ok") => setToast({ message, kind, key: Date.now() });
+
+  // Greenkeeper unlock (personal, remembered on this device)
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await window.storage.get("rcb-greenkeeper-unlocked", false);
+        setIsGreenkeeper(res ? !!JSON.parse(res.value) : false);
+      } catch {
+        setIsGreenkeeper(false);
+      }
+    })();
+  }, []);
+
+  const handleGreenkeeperUnlock = async () => {
+    setIsGreenkeeper(true);
+    setShowGreenkeeperLogin(false);
+    try { await window.storage.set("rcb-greenkeeper-unlocked", JSON.stringify(true), false); } catch {}
+    showToast("Greenkeeper access unlocked on this device.");
+  };
+
+  const handleGreenkeeperLock = async () => {
+    setIsGreenkeeper(false);
+    try { await window.storage.set("rcb-greenkeeper-unlocked", JSON.stringify(false), false); } catch {}
+    showToast("Greenkeeper access locked.");
+  };
+
+  const assignRink = async (challengeId, green, rink) => {
+    const next = (challenges || []).map((c) =>
+      c.id === challengeId ? { ...c, green: green || null, rink: green ? rink || null : null } : c
+    );
+    await persistChallenges(next);
+    showToast(green && rink ? `Assigned ${green} green, rink ${rink}.` : green ? `Assigned ${green} green (pick a rink).` : "Green/rink cleared.");
+  };
 
   const myIndex = useMemo(() => {
     if (!ladder || !myId) return -1;
@@ -3023,7 +3173,7 @@ export default function App() {
     return (
       <div style={{ padding: 40, textAlign: "center", fontFamily: "'Inter', sans-serif", color: COLORS.slate }}>
         <style>{FONT_IMPORT}</style>
-        <img src={LOGO_SRC} alt="RCB logo" style={{ width: 64, height: 64, marginBottom: 12, opacity: 0.85 }} />
+        <img src={LOGO_SRC} alt="RBC logo" style={{ width: 64, height: 64, marginBottom: 12, opacity: 0.85 }} />
         <div>Loading the ladder...</div>
       </div>
     );
@@ -3081,6 +3231,14 @@ export default function App() {
           onConfirm={(details) => issueChallenge(composerTarget.id, details)}
         />
       )}
+      {showGreenkeeperLogin && (
+        <AdminLogin
+          title="Greenkeeper access"
+          passcode={GREENKEEPER_PASSCODE}
+          onUnlock={handleGreenkeeperUnlock}
+          onCancel={() => setShowGreenkeeperLogin(false)}
+        />
+      )}
       {showAdminLogin && (
         <AdminLogin
           onUnlock={handleAdminUnlock}
@@ -3124,7 +3282,7 @@ export default function App() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
-          <img src={LOGO_SRC} alt="RCB logo" style={{ width: 26, height: 26, flexShrink: 0 }} />
+          <img src={LOGO_SRC} alt="RBC logo" style={{ width: 26, height: 26, flexShrink: 0 }} />
           <span
             style={{
               fontFamily: "'Fraunces', serif",
@@ -3189,7 +3347,7 @@ export default function App() {
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <img
               src={LOGO_SRC}
-              alt="RCB logo"
+              alt="RBC logo"
               style={{ width: 48, height: 48, flexShrink: 0, filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.35))" }}
             />
             <h1
@@ -3322,7 +3480,14 @@ export default function App() {
         )}
 
         {mainView === "greens" && (
-          <GreenBookingsView bookings={pendingChallenges} />
+          <GreenBookingsView
+            bookings={pendingChallenges}
+            canAssign={isAdmin || isGreenkeeper}
+            onAssign={assignRink}
+            isGreenkeeper={isGreenkeeper && !isAdmin}
+            onGreenkeeperLogin={() => setShowGreenkeeperLogin(true)}
+            onGreenkeeperLock={handleGreenkeeperLock}
+          />
         )}
 
         {mainView === "ladder" && (
