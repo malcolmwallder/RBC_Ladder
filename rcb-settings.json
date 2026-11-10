@@ -1,0 +1,1 @@
+{"topThreshold":10,"topLimit":10,"standardLimit":10,"oomChallengePoints":1,"oomWinPoints":3,"oomLosePoints":1,"oomInactivityDays":45,"oomInactivityPenalty":-5}
