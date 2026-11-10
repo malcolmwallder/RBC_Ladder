@@ -29,6 +29,37 @@ function fullKey(key, shared, deviceId) {
   return shared ? `s:${key}` : `p:${deviceId || "unknown"}:${key}`;
 }
 
+// ---- Ladder protection -------------------------------------------------
+// The shared ladder must never be wiped, emptied or replaced with junk.
+//  - Writes to "ladder" must be a non-empty JSON array of bowlers with ids.
+//  - The previous value is copied to "ladder-prev" before every ladder write.
+//  - The daily cron stores dated snapshots ("ladder-snapshot:YYYY-MM-DD").
+//  - Clients cannot delete the ladder or touch the backup keys.
+const PROTECTED_NO_DELETE = new Set(["ladder", "ladder-prev"]);
+const isReservedBackupKey = (key) => key === "ladder-prev" || String(key).startsWith("ladder-snapshot:");
+
+function validateLadderValue(raw) {
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return "Ladder must be valid JSON.";
+  }
+  if (!Array.isArray(parsed) || parsed.length === 0) return "Ladder must be a non-empty list.";
+  if (!parsed.every((b) => b && typeof b === "object" && typeof b.id === "string" && b.id)) {
+    return "Every ladder entry must have an id.";
+  }
+  return null;
+}
+
+async function snapshotLadder(env) {
+  if (!env.STORAGE) return;
+  const raw = await env.STORAGE.get("s:ladder");
+  if (!raw || validateLadderValue(raw)) return; // never snapshot a missing/invalid ladder
+  const day = new Date().toISOString().slice(0, 10);
+  await env.STORAGE.put(`s:ladder-snapshot:${day}`, raw, { expirationTtl: 60 * 24 * 60 * 60 });
+}
+
 async function handleGet(request, env) {
   if (!env.STORAGE) {
     return jsonResponse({ error: "STORAGE KV binding is not configured on this Worker." }, 500);
@@ -60,12 +91,26 @@ async function handlePost(request, env) {
 
   if (action === "set") {
     if (!key) return jsonResponse({ error: "key is required" }, 400);
+    if (shared && isReservedBackupKey(key)) {
+      return jsonResponse({ error: "That key is reserved for server backups." }, 403);
+    }
+    if (shared && key === "ladder") {
+      const problem = validateLadderValue(String(value));
+      if (problem) return jsonResponse({ error: `Ladder write rejected: ${problem}` }, 400);
+      const existing = await env.STORAGE.get("s:ladder");
+      if (existing && existing !== String(value)) {
+        await env.STORAGE.put("s:ladder-prev", existing);
+      }
+    }
     await env.STORAGE.put(fullKey(key, shared, deviceId), String(value));
     return jsonResponse({ key, value, shared });
   }
 
   if (action === "delete") {
     if (!key) return jsonResponse({ error: "key is required" }, 400);
+    if (shared && (PROTECTED_NO_DELETE.has(key) || isReservedBackupKey(key))) {
+      return jsonResponse({ error: "The ladder and its backups cannot be deleted." }, 403);
+    }
     await env.STORAGE.delete(fullKey(key, shared, deviceId));
     return jsonResponse({ key, deleted: true, shared });
   }
@@ -95,6 +140,8 @@ async function applyInactivityPenalties(env) {
     env.STORAGE.get("s:oom-tracking"),
     env.STORAGE.get("s:oom-ledger"),
   ]);
+
+  if (!ladderRaw) return { applied: 0, error: "Ladder not found in KV; skipped." };
 
   const settings = { ...DEFAULT_OOM_SETTINGS, ...(settingsRaw ? JSON.parse(settingsRaw) : {}) };
   const ladder = ladderRaw ? JSON.parse(ladderRaw) : [];
@@ -169,7 +216,7 @@ export default {
   },
 
   async scheduled(event, env, ctx) {
-    ctx.waitUntil(applyInactivityPenalties(env));
+    ctx.waitUntil(snapshotLadder(env).then(() => applyInactivityPenalties(env)));
   },
 };
 

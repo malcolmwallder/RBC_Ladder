@@ -10,7 +10,7 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');`;
 
-const INITIAL_LADDER = [{"id": "1-Donnelly-Bobby", "surname": "Donnelly", "name": "Bobby", "cell": "082 923 5967", "grade": "Skip", "hcap": 0, "years": 16.9}, {"id": "2-Barnard-Richard", "surname": "Barnard", "name": "Richard", "cell": "082 875 6641", "grade": "Skip", "hcap": 1, "years": 16.9}, {"id": "3-Smith-Ryan", "surname": "Smith", "name": "Ryan", "cell": "064) 652 3802", "grade": "Skip", "hcap": 1, "years": 15.8}, {"id": "4-Strover-Roy", "surname": "Strover", "name": "Roy", "cell": "", "grade": "Skip", "hcap": 1, "years": 16.9}, {"id": "5-Stafford-Laurie", "surname": "Stafford", "name": "Laurie", "cell": "082 308 8471", "grade": "Skip", "hcap": 1, "years": 15.8}, {"id": "6-Celliers-Kevin", "surname": "Celliers", "name": "Kevin", "cell": "082 588 1511", "grade": "Skip", "hcap": 1, "years": 16.9}, {"id": "7-Harrison-Bev", "surname": "Harrison", "name": "Bev", "cell": "072 065 2700", "grade": "Skip", "hcap": 1, "years": 16.9}, {"id": "8-Gagliardi-Roberto", "surname": "Gagliardi", "name": "Roberto", "cell": "083 262 4995", "grade": "Skip", "hcap": 1, "years": 14.4}, {"id": "9-Turner-Ray", "surname": "Turner", "name": "Ray", "cell": "083 629 8718", "grade": "Skip", "hcap": 1, "years": 13.0}, {"id": "10-Turner-Trent", "surname": "Turner", "name": "Trent", "cell": "071 670 9647", "grade": "Skip", "hcap": 1, "years": 13.0}, {"id": "11-Smith-Dave", "surname": "Smith", "name": "Dave", "cell": "072 606 0827", "grade": "Skip", "hcap": 2, "years": 16.9}, {"id": "12-Coetzee-Les", "surname": "Coetzee", "name": "Les", "cell": "082 771 9579", "grade": "Skip", "hcap": 2, "years": 3.9}, {"id": "13-Fenn-Gareth", "surname": "Fenn", "name": "Gareth", "cell": "083 360 0897", "grade": "Skip", "hcap": 2, "years": 16.9}, {"id": "14-Kramer-Xavian", "surname": "Kramer", "name": "Xavian", "cell": "063 179 9390", "grade": "Skip", "hcap": 2, "years": 10.7}, {"id": "15-Prinsloo-Jan", "surname": "Prinsloo", "name": "Jan", "cell": "079 018 8372", "grade": "Skip", "hcap": 3, "years": 14.1}, {"id": "16-du_Plessis-Mornè", "surname": "du Plessis", "name": "Mornè", "cell": "074 321 1979", "grade": "Skip", "hcap": 2, "years": 9.9}, {"id": "17-Banda-Justice", "surname": "Banda", "name": "Justice", "cell": "083 944 1386", "grade": "Skip", "hcap": 3, "years": 16.9}, {"id": "18-Rix-Alan", "surname": "Rix", "name": "Alan", "cell": "082 806 5775", "grade": "Skip", "hcap": 3, "years": 16.9}, {"id": "19-Smith-Richard", "surname": "Smith", "name": "Richard", "cell": "083 701 7342", "grade": "Skip", "hcap": 3, "years": 16.9}, {"id": "20-Cook-Stuart", "surname": "Cook", "name": "Stuart", "cell": "083 656 3069", "grade": "Skip", "hcap": 3, "years": 14.8}, {"id": "21-v_d_Westhuizen-Danny", "surname": "v d Westhuizen", "name": "Danny", "cell": "083 408 1748", "grade": "3rd+", "hcap": 3, "years": 14.1}, {"id": "22-van_der_Walt-Jesse", "surname": "van der Walt", "name": "Jesse", "cell": "072 637 3008", "grade": "Skip", "hcap": 3, "years": 5.5}, {"id": "23-Malan-Mark", "surname": "Malan", "name": "Mark", "cell": "082 356 1705", "grade": "Skip", "hcap": 3, "years": 12.7}, {"id": "24-Vrugtman-Bruno", "surname": "Vrugtman", "name": "Bruno", "cell": "083 564 2036", "grade": "Skip", "hcap": 3, "years": 11.9}, {"id": "25-Hughes-David", "surname": "Hughes", "name": "David", "cell": "082 412 6665", "grade": "2nd+", "hcap": 4, "years": 4.5}, {"id": "26-Hugo-Corne", "surname": "Hugo", "name": "Corne", "cell": "082 823 9756", "grade": "3rd", "hcap": 3, "years": 4.6}, {"id": "27-van_Niekerk-Michiel", "surname": "van Niekerk", "name": "Michiel", "cell": "084 555 6361", "grade": "3rd+", "hcap": 3, "years": 2.3}, {"id": "28-Naughton-Mark", "surname": "Naughton", "name": "Mark", "cell": "082 463 4162", "grade": "3rd+", "hcap": 4, "years": 13.8}, {"id": "29-Woolfe-Jonathan", "surname": "Woolfe", "name": "Jonathan", "cell": "082 452 3497", "grade": "3rd", "hcap": 4, "years": 11.1}, {"id": "30-Mentz-Deon", "surname": "Mentz", "name": "Deon", "cell": "082 978 4999", "grade": "3rd+", "hcap": 4, "years": 8.3}, {"id": "31-Krul-Willem", "surname": "Krul", "name": "Willem", "cell": "083 285 0803", "grade": "2nd+", "hcap": 4, "years": 8.1}, {"id": "32-Nelson-Rheece", "surname": "Nelson", "name": "Rheece", "cell": "062 731 2356", "grade": "3rd", "hcap": 4, "years": 6.9}, {"id": "33-Nelson-Ethan", "surname": "Nelson", "name": "Ethan", "cell": "069 370 9486", "grade": "Lead", "hcap": 4, "years": 4.6}, {"id": "34-O'Connell-Jason", "surname": "O'Connell", "name": "Jason", "cell": "082 956 3042", "grade": "Lead", "hcap": 4, "years": 4.3}, {"id": "35-Nelson-Craig", "surname": "Nelson", "name": "Craig", "cell": "083 611 6625", "grade": "2nd+", "hcap": 4, "years": 3.9}, {"id": "36-Harrison-Gordon", "surname": "Harrison", "name": "Gordon", "cell": "082 441 9006", "grade": "", "hcap": 5, "years": 16.9}, {"id": "37-Harker-Gordon", "surname": "Harker", "name": "Gordon", "cell": "083 260 6212", "grade": "Skip", "hcap": 5, "years": 13.1}, {"id": "38-Schourie-Sean", "surname": "Schourie", "name": "Sean", "cell": "082 090 2008", "grade": "2nd+", "hcap": 6, "years": 10.3}, {"id": "39-Penfold-Brian", "surname": "Penfold", "name": "Brian", "cell": "083 278 4332", "grade": "3rd", "hcap": 5, "years": 11.7}, {"id": "40-Alford-Smith-John", "surname": "Alford-Smith", "name": "John", "cell": "082 735 5017", "grade": "3rd", "hcap": 5, "years": 11.1}, {"id": "41-Cronje-Luan", "surname": "Cronje", "name": "Luan", "cell": "074 717 1783", "grade": "2nd", "hcap": 5, "years": 10.8}, {"id": "42-Brice-Mike", "surname": "Brice", "name": "Mike", "cell": "072 291 0573", "grade": "3rd", "hcap": 5, "years": 10.4}, {"id": "43-Adams-Mike", "surname": "Adams", "name": "Mike", "cell": "083 450 1519", "grade": "3rd", "hcap": 5, "years": 9.8}, {"id": "44-Mkhonza-Sandile", "surname": "Mkhonza", "name": "Sandile", "cell": "074 838 2033", "grade": "3rd", "hcap": 5, "years": 8.4}, {"id": "45-Ramnarain-Denver", "surname": "Ramnarain", "name": "Denver", "cell": "083 701 9222", "grade": "3rd+", "hcap": 5, "years": 4.5}, {"id": "46-Tillier-Andrew", "surname": "Tillier", "name": "Andrew", "cell": "082 514 5497", "grade": "3rd+", "hcap": 5, "years": 7.5}, {"id": "47-Hancox-Simon", "surname": "Hancox", "name": "Simon", "cell": "082 855 0370", "grade": "3rd+", "hcap": 5, "years": 7.0}, {"id": "48-Suttie-Douglas", "surname": "Suttie", "name": "Douglas", "cell": "082 557 2232", "grade": "2nd+", "hcap": 5, "years": 6.4}, {"id": "49-la_Grange-Gerhard", "surname": "la Grange", "name": "Gerhard", "cell": "082 927 4509", "grade": "2nd+", "hcap": 5, "years": 2.7}, {"id": "50-Erasmus-Mark", "surname": "Erasmus", "name": "Mark", "cell": "083 307 1410", "grade": "2nd+", "hcap": 5, "years": 2.2}, {"id": "51-Clark-Mike", "surname": "Clark", "name": "Mike", "cell": "082 785 9221", "grade": "Skip", "hcap": 6, "years": 16.9}, {"id": "52-Coetzee-Wynand", "surname": "Coetzee", "name": "Wynand", "cell": "082 551 7907", "grade": "2nd", "hcap": 6, "years": 15.1}, {"id": "53-Kruger-Walter", "surname": "Kruger", "name": "Walter", "cell": "083 258 0048", "grade": "Lead+", "hcap": 6, "years": 9.6}, {"id": "54-Goode-Ian", "surname": "Goode", "name": "Ian", "cell": "083 280 5689", "grade": "2nd", "hcap": 6, "years": 9.0}, {"id": "55-Ludick-Thinus", "surname": "Ludick", "name": "Thinus", "cell": "082 371 9924", "grade": "Lead", "hcap": 6, "years": 6.5}, {"id": "56-Galanakis-George", "surname": "Galanakis", "name": "George", "cell": "071 673 5185", "grade": "2nd", "hcap": 6, "years": 4.0}, {"id": "57-Kennedy-Jack", "surname": "Kennedy", "name": "Jack", "cell": "083 653 4050", "grade": "2nd", "hcap": 6, "years": 3.5}, {"id": "58-Spence-Ross-Caiden", "surname": "Spence-Ross", "name": "Caiden", "cell": "071 608 0389", "grade": "2nd", "hcap": 6, "years": 3.5}, {"id": "59-Guthrie-Shaun", "surname": "Guthrie", "name": "Shaun", "cell": "071 608 0389", "grade": "2nd", "hcap": 6, "years": 3.5}, {"id": "60-Mathibela-Tebogo", "surname": "Mathibela", "name": "Tebogo", "cell": "083 581 9659", "grade": "Lead", "hcap": 6, "years": 3.5}, {"id": "61-Snyman-Etienne", "surname": "Snyman", "name": "Etienne", "cell": "082 445 1356", "grade": "2nd", "hcap": 6, "years": 2.8}, {"id": "62-Potgieter-Nathan", "surname": "Potgieter", "name": "Nathan", "cell": "079 876 3050", "grade": "2nd", "hcap": 6, "years": 2.7}, {"id": "63-Andreadakis-Laki", "surname": "Andreadakis", "name": "Laki", "cell": "082 923 3104", "grade": "3rd", "hcap": 7, "years": 16.6}, {"id": "64-Cook-Gary", "surname": "Cook", "name": "Gary", "cell": "082 881 0081", "grade": "Lead", "hcap": 7, "years": 14.1}, {"id": "65-Locke-Diann", "surname": "Locke", "name": "Diann", "cell": "074 741 0246", "grade": "2nd", "hcap": 7, "years": 7.5}, {"id": "66-Wallder-Malcolm", "surname": "Wallder", "name": "Malcolm", "cell": "083 302 0818", "grade": "3rd", "hcap": 7, "years": 5.7}, {"id": "67-Strydom-Shaan", "surname": "Strydom", "name": "Shaan", "cell": "060 997 6764", "grade": "2nd", "hcap": 7, "years": 2.7}, {"id": "68-Robinson-Jean-Pierre", "surname": "Robinson", "name": "Jean-Pierre", "cell": "082 998 5114", "grade": "2nd", "hcap": 7, "years": 2.4}, {"id": "69-Rossouw-Leon", "surname": "Rossouw", "name": "Leon", "cell": "082 456 3954", "grade": "Lead", "hcap": 8, "years": 5.7}, {"id": "70-Ekron-Mervyn", "surname": "Ekron", "name": "Mervyn", "cell": "082 852 2754", "grade": "Lead", "hcap": 8, "years": 2.0}, {"id": "71-Botes-Schalk", "surname": "Botes", "name": "Schalk", "cell": "082 569 1955", "grade": "Lead", "hcap": 8, "years": 5.7}, {"id": "72-Poyurs-Peter", "surname": "Poyurs", "name": "Peter", "cell": "079 493 1732", "grade": "Lead", "hcap": 8, "years": 3.7}, {"id": "73-Morgan-Ken", "surname": "Morgan", "name": "Ken", "cell": "083 677 7099", "grade": "2nd", "hcap": 8, "years": 3.4}, {"id": "74-Anderson-Don", "surname": "Anderson", "name": "Don", "cell": "083 459 4525", "grade": "Lead", "hcap": 8, "years": 2.6}, {"id": "75-Laing-Errol", "surname": "Laing", "name": "Errol", "cell": "082 497 2468", "grade": "", "hcap": 8, "years": 2.5}, {"id": "76-Swartz-Robert", "surname": "Swartz", "name": "Robert", "cell": "082 565 8343", "grade": "Lead", "hcap": 9, "years": 2.3}, {"id": "77-Bell-Gordon", "surname": "Bell", "name": "Gordon", "cell": "083 212 9755", "grade": "Lead", "hcap": 9, "years": 2.1}, {"id": "78-Spaull-Marc", "surname": "Spaull", "name": "Marc", "cell": "082 453 4866", "grade": "Lead", "hcap": 9, "years": 2.1}, {"id": "79-Pretorius-Ed", "surname": "Pretorius", "name": "Ed", "cell": "062 429 8810", "grade": "Lead", "hcap": 10, "years": 1.2}, {"id": "80-Boesch-Tony", "surname": "Boesch", "name": "Tony", "cell": "083 283 5881", "grade": "Lead", "hcap": 9, "years": 2.1}, {"id": "81-Hugo-Liam", "surname": "Hugo", "name": "Liam", "cell": "082 823 9756", "grade": "Lead", "hcap": 10, "years": 3.5}, {"id": "82-Kennedy-Ryan", "surname": "Kennedy", "name": "Ryan", "cell": "083 653 4050", "grade": "Lead", "hcap": 10, "years": 3.4}, {"id": "83-Swanepoel-Lance", "surname": "Swanepoel", "name": "Lance", "cell": "079 932 1592", "grade": "Lead", "hcap": 10, "years": 2.8}, {"id": "84-Duncan-Taylon", "surname": "Duncan", "name": "Taylon", "cell": "072 876 7188", "grade": "Lead", "hcap": 10, "years": 1.2}, {"id": "85-Singh-Tanveer", "surname": "Singh", "name": "Tanveer", "cell": "072 330 3060", "grade": "Lead", "hcap": 10, "years": 1.2}, {"id": "86-Singh-Deeps", "surname": "Singh", "name": "Deeps", "cell": "082 490 9718", "grade": "Lead", "hcap": 10, "years": 1.2}, {"id": "87-Ramsay-Iain", "surname": "Ramsay", "name": "Iain", "cell": "083 252 6757", "grade": "Lead", "hcap": 10, "years": 1.0}, {"id": "88-Roddy-Mark", "surname": "Roddy", "name": "Mark", "cell": "072 403 7365", "grade": "Lead", "hcap": 10, "years": 1.0}, {"id": "89-Smith-Craig", "surname": "Smith", "name": "Craig", "cell": "", "grade": "Lead", "hcap": 10, "years": 0.8}, {"id": "90-Marnewick-Johann", "surname": "Marnewick", "name": "Johann", "cell": "082 497 5423", "grade": "Lead", "hcap": 10, "years": 0.8}, {"id": "91-van_Rooyen-Sean", "surname": "van Rooyen", "name": "Sean", "cell": "082 920 5546", "grade": "Lead", "hcap": 10, "years": 0.7}, {"id": "92-van_Rooyen-Mike", "surname": "van Rooyen", "name": "Mike", "cell": "082 448 6927", "grade": "Lead", "hcap": 10, "years": 0.7}, {"id": "93-Mkanse-William", "surname": "Mkanse", "name": "William", "cell": "076 628 2031", "grade": "Lead", "hcap": 10, "years": 0.6}, {"id": "94-Kruger-Anton", "surname": "Kruger", "name": "Anton", "cell": "082 787 0710", "grade": "Lead", "hcap": 10, "years": 0.6}, {"id": "95-Liguori-Joe", "surname": "Liguori", "name": "Joe", "cell": "082 444 9260", "grade": "Lead", "hcap": 10, "years": 0.4}, {"id": "96-Wilkinson-Grahame", "surname": "Wilkinson", "name": "Grahame", "cell": "083 263 9079", "grade": "Lead", "hcap": 10, "years": 0.5}, {"id": "97-Robertson-Michael", "surname": "Robertson", "name": "Michael", "cell": "083 658 2332", "grade": "Lead", "hcap": 10, "years": 0.5}, {"id": "98-Butow-Dereck", "surname": "Butow", "name": "Dereck", "cell": "082 348 9238", "grade": "Lead", "hcap": 10, "years": 0.4}, {"id": "99-Lochmann-Willy", "surname": "Lochmann", "name": "Willy", "cell": "082 452 0560", "grade": "Lead", "hcap": 10, "years": 0.4}, {"id": "100-Koekemoer-Neels", "surname": "Koekemoer", "name": "Neels", "cell": "079 895 0778", "grade": "Lead", "hcap": 10, "years": 0.3}, {"id": "101-Ramnarain-Liam", "surname": "Ramnarain", "name": "Liam", "cell": "069 924 4583", "grade": "Lead", "hcap": 10, "years": 0.2}, {"id": "102-Bouwer-Louis", "surname": "Bouwer", "name": "Louis", "cell": "082 533 7399", "grade": "Lead", "hcap": 10, "years": 0.2}, {"id": "103-Janse_v_Vuuren-Shawn", "surname": "Janse v Vuuren", "name": "Shawn", "cell": "076 816 3515", "grade": "Lead", "hcap": 10, "years": 0.1}, {"id": "104-Matthews-Tony", "surname": "Matthews", "name": "Tony", "cell": "082 783 8701", "grade": "Lead", "hcap": 10, "years": 0.1}, {"id": "105-Shankland-Lindsay", "surname": "Shankland", "name": "Lindsay", "cell": "066 290 0024", "grade": "Lead", "hcap": 10, "years": 0.1}, {"id": "106-Pearman-White-Mark", "surname": "Pearman-White", "name": "Mark", "cell": "082 456 0333", "grade": "Lead", "hcap": 10, "years": 0.1}, {"id": "107-Hawkins-Bella", "surname": "Hawkins", "name": "Bella", "cell": "083 227 3579", "grade": "Lead", "hcap": 10, "years": 0.1}];
+// NOTE: There is deliberately NO built-in/seed ladder. The ladder is only ever read from shared storage (KV).
 
 const DEFAULT_SETTINGS = {
   topThreshold: 10,
@@ -325,88 +325,63 @@ function usePersisted() {
   const [oomTracking, setOomTracking] = useState(null);
   const [ready, setReady] = useState(false);
   const [err, setErr] = useState(null);
+  const [loadError, setLoadError] = useState(null);
 
   const loadAll = useCallback(async () => {
     setErr(null);
-    // Ladder (shared)
-    let ladderVal = null;
-    try {
-      const res = await window.storage.get("ladder", true);
-      ladderVal = res ? JSON.parse(res.value) : null;
-    } catch {
-      ladderVal = null;
-    }
-    if (!ladderVal) {
-      ladderVal = INITIAL_LADDER;
+    setLoadError(null);
+    setReady(false);
+
+    // Reads a key from storage. Returns { found, value }.
+    // A genuine "key doesn't exist" is reported as found:false; any other failure throws.
+    const readKey = async (key, shared) => {
+      let res;
       try {
-        await window.storage.set("ladder", JSON.stringify(ladderVal), true);
+        res = await window.storage.get(key, shared);
       } catch (e) {
-        setErr("Could not initialise the shared ladder. Try refreshing.");
+        const msg = String((e && e.message) || e || "");
+        // Our storage client returns null for a missing key, so ANY thrown error is a real failure.
+        throw new Error(`Storage error reading "${key}": ${msg || "unknown error"}`);
       }
-    }
-    setLadder(ladderVal);
+      if (res === null || res === undefined || res.value === undefined || res.value === null) {
+        return { found: false, value: null };
+      }
+      try {
+        return { found: true, value: JSON.parse(res.value) };
+      } catch {
+        throw new Error(`Stored data for "${key}" is corrupted and could not be read.`);
+      }
+    };
 
-    // Challenges (shared)
-    let chVal = null;
     try {
-      const res = await window.storage.get("challenges", true);
-      chVal = res ? JSON.parse(res.value) : null;
-    } catch {
-      chVal = null;
-    }
-    if (!chVal) chVal = [];
-    setChallenges(chVal);
+      // Ladder (shared). REQUIRED. Never falls back to a starting ladder and never writes on load.
+      const l = await readKey("ladder", true);
+      if (!l.found || !Array.isArray(l.value) || l.value.length === 0) {
+        throw new Error(
+          'The shared ladder was not found in storage (KV). Nothing has been changed. ' +
+          'Check the KV binding/namespace and key name ("ladder"), then reload.'
+        );
+      }
 
-    // My identity (personal)
-    let idVal = null;
-    try {
-      const res = await window.storage.get("my-bowler-id", false);
-      idVal = res ? JSON.parse(res.value) : null;
-    } catch {
-      idVal = null;
-    }
-    setMyId(idVal);
+      const ch = await readKey("challenges", true);
+      const myIdRes = await readKey("my-bowler-id", false);
+      const adminRes = await readKey("rcb-admin-unlocked", false);
+      const setRes = await readKey("rcb-settings", true);
+      const ledgerRes = await readKey("oom-ledger", true);
+      const trackRes = await readKey("oom-tracking", true);
 
-    // Admin unlock (personal, remembered on this device)
-    let adminVal = false;
-    try {
-      const res = await window.storage.get("rcb-admin-unlocked", false);
-      adminVal = res ? JSON.parse(res.value) : false;
-    } catch {
-      adminVal = false;
+      setLadder(l.value);
+      setChallenges(ch.found && Array.isArray(ch.value) ? ch.value : []);
+      setMyId(myIdRes.found ? myIdRes.value : null);
+      setIsAdmin(!!(adminRes.found && adminRes.value));
+      setSettings(setRes.found && setRes.value ? { ...DEFAULT_SETTINGS, ...setRes.value } : DEFAULT_SETTINGS);
+      setOomLedger(ledgerRes.found && Array.isArray(ledgerRes.value) ? ledgerRes.value : []);
+      setOomTracking(trackRes.found && trackRes.value ? trackRes.value : {});
+      setReady(true);
+    } catch (e) {
+      // Do NOT set ready and do NOT set any data: the app stays locked so nothing can overwrite KV.
+      setLoadError(String((e && e.message) || e));
     }
-    setIsAdmin(!!adminVal);
-
-    // Challenge rule settings (shared)
-    let settingsVal = null;
-    try {
-      const res = await window.storage.get("rcb-settings", true);
-      settingsVal = res ? JSON.parse(res.value) : null;
-    } catch {
-      settingsVal = null;
-    }
-    setSettings(settingsVal ? { ...DEFAULT_SETTINGS, ...settingsVal } : DEFAULT_SETTINGS);
-
-    // Order of Merit ledger + activity tracking (shared)
-    let ledgerVal = null;
-    try {
-      const res = await window.storage.get("oom-ledger", true);
-      ledgerVal = res ? JSON.parse(res.value) : null;
-    } catch {
-      ledgerVal = null;
-    }
-    setOomLedger(ledgerVal || []);
-
-    let trackingVal = null;
-    try {
-      const res = await window.storage.get("oom-tracking", true);
-      trackingVal = res ? JSON.parse(res.value) : null;
-    } catch {
-      trackingVal = null;
-    }
-    setOomTracking(trackingVal || {});
-
-    setReady(true);
   }, []);
 
   useEffect(() => {
@@ -477,7 +452,7 @@ function usePersisted() {
   }, []);
 
   return {
-    ladder, challenges, myId, isAdmin, settings, oomLedger, oomTracking, ready, err, setErr,
+    ladder, challenges, myId, isAdmin, settings, oomLedger, oomTracking, ready, err, setErr, loadError,
     loadAll, persistLadder, persistChallenges, persistMyId, persistIsAdmin, persistSettings,
     persistOomLedger, persistOomTracking,
   };
@@ -2575,7 +2550,7 @@ function GreenBookingsView({ bookings, canAssign, onAssign, isGreenkeeper, onGre
 
 export default function App() {
   const {
-    ladder, challenges, myId, isAdmin, settings, oomLedger, oomTracking, ready, err, setErr,
+    ladder, challenges, myId, isAdmin, settings, oomLedger, oomTracking, ready, err, setErr, loadError,
     loadAll, persistLadder, persistChallenges, persistMyId, persistIsAdmin, persistSettings,
     persistOomLedger, persistOomTracking,
   } = usePersisted();
@@ -3168,6 +3143,23 @@ export default function App() {
     await persistOomLedger(next);
     showToast("Order of Merit entry removed.");
   };
+
+  if (loadError) {
+    return (
+      <div style={{ padding: 40, textAlign: "center", fontFamily: "'Inter', sans-serif", color: COLORS.ink, maxWidth: 520, margin: "0 auto" }}>
+        <style>{FONT_IMPORT}</style>
+        <img src={LOGO_SRC} alt="RBC logo" style={{ width: 64, height: 64, marginBottom: 12, opacity: 0.85 }} />
+        <h2 style={{ margin: "0 0 8px" }}>Can't load the ladder</h2>
+        <div style={{ marginBottom: 16, lineHeight: 1.5 }}>{loadError}</div>
+        <div style={{ marginBottom: 16, fontSize: 13, color: COLORS.slate }}>
+          The app has been locked so no data is changed or overwritten.
+        </div>
+        <button onClick={() => loadAll()} style={{ padding: "10px 20px", fontSize: 15, cursor: "pointer" }}>
+          Try again
+        </button>
+      </div>
+    );
+  }
 
   if (!ready) {
     return (
